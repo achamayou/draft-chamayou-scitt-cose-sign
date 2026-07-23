@@ -156,7 +156,6 @@ Table of Contents
    the extension.  Appendix A repeats its dependencies from [RFC9052],
    [RFC9943], and [RFC9360].
 
-   <CODE BEGINS> file "scitt-multi-issuer.cddl"
    Signed_Statement =
      #6.18(COSE_Sign1) /
      Submitted_Joint_Statement
@@ -244,7 +243,6 @@ Table of Contents
    Receipts_Body_Unprotected_Header = {
      &(receipts: 394) => [+ bstr .cbor Receipt]
    }
-   <CODE ENDS>
 
                  Figure 1: Multiple-issuer SCITT statements
 
@@ -426,7 +424,6 @@ Appendix A.  Repeated CDDL Definitions
    Figure 3 of RFC 9943; and the certificate rules from Section 2 of RFC
    9360.  These rules are unchanged except for comments and formatting.
 
-   <CODE BEGINS> file "scitt-cose-dependencies.cddl"
    ; Repeated from Sections 3 and 4.1 of RFC 9052.
    COSE_Sign = [
      Headers,
@@ -500,7 +497,6 @@ Appendix A.  Repeated CDDL Definitions
    ; Repeated from Section 2 of RFC 9360.
    COSE_X509 = bstr / [ 2*certs: bstr ]
    COSE_CertHash = [ hashAlg: (int / tstr), hashValue: bstr ]
-   <CODE ENDS>
 
 Authors' Addresses
 

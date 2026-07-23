@@ -1289,8 +1289,7 @@ extension.  <a href="#cddl-dependencies" class="auto internal xref">Appendix A</
 <span id="name-multiple-issuer-scitt-state"></span><div id="statement-cddl">
 <figure id="figure-1">
         <div class="breakable lang-cddl sourcecode" id="section-2-5.1">
-<pre>&lt;CODE BEGINS&gt; file "scitt-multi-issuer.cddl"
-
+<pre>
 Signed_Statement =
   #6.18(COSE_Sign1) /
   Submitted_Joint_Statement
@@ -1378,8 +1377,7 @@ Empty_Body_Unprotected_Header = {}
 Receipts_Body_Unprotected_Header = {
   &amp;(receipts: 394) =&gt; [+ bstr .cbor Receipt]
 }
-
-&lt;CODE ENDS&gt;</pre>
+</pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
 <a href="#name-multiple-issuer-scitt-state" class="selfRef">Multiple-issuer SCITT statements</a>
@@ -1583,8 +1581,7 @@ Sections 3 and 4.1 of RFC 9052; the SCITT rules from Figure 3 of RFC 9943; and
 the certificate rules from Section 2 of RFC 9360.  These rules are unchanged
 except for comments and formatting.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <div class="breakable lang-cddl sourcecode" id="appendix-A-2">
-<pre>&lt;CODE BEGINS&gt; file "scitt-cose-dependencies.cddl"
-
+<pre>
 ; Repeated from Sections 3 and 4.1 of RFC 9052.
 COSE_Sign = [
   Headers,
@@ -1658,8 +1655,7 @@ label = int / tstr
 ; Repeated from Section 2 of RFC 9360.
 COSE_X509 = bstr / [ 2*certs: bstr ]
 COSE_CertHash = [ hashAlg: (int / tstr), hashValue: bstr ]
-
-&lt;CODE ENDS&gt;</pre><a href="#appendix-A-2" class="pilcrow">¶</a>
+</pre><a href="#appendix-A-2" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
