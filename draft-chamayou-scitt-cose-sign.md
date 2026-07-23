@@ -202,7 +202,7 @@ Receipts_Body_Unprotected_Header = {
   &(receipts: 394) => [+ bstr .cbor Receipt]
 }
 ~~~
-{: #statement-cddl title="Multiple-issuer SCITT statements" sourcecode-name="scitt-multi-issuer.cddl" sourcecode-markers="true"}
+{: #statement-cddl title="Multiple-issuer SCITT statements" sourcecode-name="scitt-multi-issuer.cddl"}
 
 The `COSE_Sign` body protected header MUST be encoded as a zero-length byte
 string.  The body therefore contains no protected header parameters and no
@@ -409,4 +409,4 @@ label = int / tstr
 COSE_X509 = bstr / [ 2*certs: bstr ]
 COSE_CertHash = [ hashAlg: (int / tstr), hashValue: bstr ]
 ~~~
-{: sourcecode-name="scitt-cose-dependencies.cddl" sourcecode-markers="true"}
+{: sourcecode-name="scitt-cose-dependencies.cddl"}
