@@ -38,3 +38,19 @@ Here are two ways to create a pull request ("PR"):
 
 Document authors/editors are often happy to accept contributions of text,
 and might be willing to help you through the process. Email them and ask.
+
+
+## Working Group Information
+
+Discussion of this work occurs on the [Supply Chain Integrity, Transparency, and Trust
+Working Group mailing list](mailto:scitt@ietf.org)
+([archive](https://mailarchive.ietf.org/arch/browse/scitt/),
+[subscribe](https://www.ietf.org/mailman/listinfo/scitt)).
+In addition to contributions in GitHub, you are encouraged to participate in
+discussions there.
+
+**Note**: Some working groups adopt a policy whereby substantive discussion of
+technical issues needs to occur on the mailing list.
+
+You might also like to familiarize yourself with other
+[Working Group documents](https://datatracker.ietf.org/wg/scitt/documents/).
