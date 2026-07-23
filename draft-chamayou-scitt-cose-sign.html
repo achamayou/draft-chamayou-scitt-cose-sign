@@ -1240,12 +1240,11 @@ over one common payload in one registered object.<a href="#section-1.1-2" class=
 <a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
         </h3>
 <p id="section-1.2-1">This document uses the terms "Artifact", "Issuer", "Receipt", "Registration",
-"Registration Policy", "Relying Party", "Signed Statement", "Statement",
-"Statement Sequence", "Subject", "Transparency Service", and "Transparent
-Statement" as defined in Section 3 of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.  The terms <code>COSE_Sign</code>,
-<code>COSE_Sign1</code>, and <code>COSE_Signature</code>, and the terms "protected header",
-"unprotected header", and "payload", are used as defined in Sections 3 and 4 of
-<span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+"Registration Policy", "Signed Statement", "Statement", "Statement Sequence",
+"Subject", "Transparency Service", and "Transparent Statement" as defined in
+Section 3 of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.  The terms <code>COSE_Sign</code>, <code>COSE_Sign1</code>, and
+<code>COSE_Signature</code>, and the terms "protected header", "unprotected header", and
+"payload", are used as defined in Sections 3 and 4 of <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
 <p id="section-1.2-2">This document uses "joint Statement" for a Signed Statement represented by a
 tagged <code>COSE_Sign</code> and constrained as specified in this document.  Each Issuer
 signs the common payload and its own protected headers, but does not sign or
@@ -1447,11 +1446,7 @@ authorized Issuers after applying its identity and alias rules, rather than
 counting signatures, keys, or merely unequal <code>iss</code> strings.  One authority can
 control multiple identifiers or keys.<a href="#section-3-4" class="pilcrow">¶</a></p>
 <p id="section-3-5">A Receipt binds the complete Statement registered by the Transparency Service,
-including its signatures array.  Before relying on the registered signature
-set, a Relying Party <span class="bcp14">MUST</span> verify the Receipt and apply its policy for acceptable
-Issuers and signature sets.  If that policy does not delegate verification of
-Issuer signatures to the Transparency Service's Registration Policy, the
-Relying Party <span class="bcp14">MUST</span> verify the applicable Issuer signatures.<a href="#section-3-5" class="pilcrow">¶</a></p>
+including its signatures array.<a href="#section-3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="privacy-considerations">
