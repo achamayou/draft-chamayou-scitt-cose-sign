@@ -291,11 +291,8 @@ Table of Contents
    signature according to Section 4.4 of RFC 9052 using a key authorized
    for that signature's iss value.  It MUST apply the required-header
    and Registration Policy checks of RFC 9943 separately to each
-   signature's protected header, including its sub value.  Its
-   Registration Policy MAY additionally require a specific set or
-   threshold of distinct Issuers or distinct combinations of Issuer and
-   Subject.  COSE_Sign1 verification and its body iss and sub Claims are
-   unchanged.
+   signature's protected header, including its sub value.  COSE_Sign1
+   verification and its body iss and sub Claims are unchanged.
 
 3.  Security Considerations
 
@@ -318,13 +315,12 @@ Table of Contents
    it MUST NOT treat them as assertions by an Issuer unless another
    mechanism authenticates them.
 
-   A policy requiring a fixed Issuer set or threshold MUST define that
-   requirement independently of the signatures array.  It MUST count
-   distinct, successfully verified, and authorized Issuers after
-   applying its identity and alias rules, rather than counting
-   signatures, keys, or merely unequal iss strings.  One authority can
-   control multiple identifiers or keys.  This document does not provide
-   atomic "all issuers or none" semantics before Registration.
+   When determining whether a joint Statement has signatures from at
+   least two distinct Issuers, a verifier MUST count distinct,
+   successfully verified, and authorized Issuers after applying its
+   identity and alias rules, rather than counting signatures, keys, or
+   merely unequal iss strings.  One authority can control multiple
+   identifiers or keys.
 
    A Receipt binds the complete Statement registered by the Transparency
    Service, including its signatures array.  Before relying on the

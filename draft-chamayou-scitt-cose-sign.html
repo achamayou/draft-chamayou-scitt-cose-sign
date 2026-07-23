@@ -1418,10 +1418,8 @@ remain empty.<a href="#section-2-11" class="pilcrow">¶</a></p>
 according to Section 4.4 of RFC 9052 using a key authorized for that
 signature's <code>iss</code> value.  It <span class="bcp14">MUST</span> apply the required-header and Registration
 Policy checks of RFC 9943 separately to each signature's protected header,
-including its <code>sub</code> value.  Its Registration Policy <span class="bcp14">MAY</span> additionally require
-a specific set or threshold of distinct Issuers or distinct combinations of
-Issuer and Subject.  <code>COSE_Sign1</code> verification and its body <code>iss</code> and <code>sub</code>
-Claims are unchanged.<a href="#section-2-12" class="pilcrow">¶</a></p>
+including its <code>sub</code> value.  <code>COSE_Sign1</code> verification and its body <code>iss</code> and
+<code>sub</code> Claims are unchanged.<a href="#section-2-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
@@ -1443,13 +1441,11 @@ another Issuer.<a href="#section-3-2" class="pilcrow">¶</a></p>
 as unauthenticated.  It <span class="bcp14">MAY</span> use them to locate signature verification material
 or as Registration Policy input, but it <span class="bcp14">MUST NOT</span> treat them as assertions by
 an Issuer unless another mechanism authenticates them.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">A policy requiring a fixed Issuer set or threshold <span class="bcp14">MUST</span> define that
-requirement independently of the signatures array.  It <span class="bcp14">MUST</span> count distinct,
-successfully verified, and authorized Issuers after applying its identity and
-alias rules, rather than counting signatures, keys, or merely unequal <code>iss</code>
-strings.  One authority can control multiple identifiers or keys.  This
-document does not provide atomic "all issuers or none" semantics before
-Registration.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-4">When determining whether a joint Statement has signatures from at least two
+distinct Issuers, a verifier <span class="bcp14">MUST</span> count distinct, successfully verified, and
+authorized Issuers after applying its identity and alias rules, rather than
+counting signatures, keys, or merely unequal <code>iss</code> strings.  One authority can
+control multiple identifiers or keys.<a href="#section-3-4" class="pilcrow">¶</a></p>
 <p id="section-3-5">A Receipt binds the complete Statement registered by the Transparency Service,
 including its signatures array.  Before relying on the registered signature
 set, a Relying Party <span class="bcp14">MUST</span> verify the Receipt and apply its policy for acceptable
