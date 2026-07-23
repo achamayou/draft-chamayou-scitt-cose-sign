@@ -75,12 +75,11 @@ over one common payload in one registered object.
 ## Terminology
 
 This document uses the terms "Artifact", "Issuer", "Receipt", "Registration",
-"Registration Policy", "Relying Party", "Signed Statement", "Statement",
-"Statement Sequence", "Subject", "Transparency Service", and "Transparent
-Statement" as defined in Section 3 of {{RFC9943}}.  The terms `COSE_Sign`,
-`COSE_Sign1`, and `COSE_Signature`, and the terms "protected header",
-"unprotected header", and "payload", are used as defined in Sections 3 and 4 of
-{{RFC9052}}.
+"Registration Policy", "Signed Statement", "Statement", "Statement Sequence",
+"Subject", "Transparency Service", and "Transparent Statement" as defined in
+Section 3 of {{RFC9943}}.  The terms `COSE_Sign`, `COSE_Sign1`, and
+`COSE_Signature`, and the terms "protected header", "unprotected header", and
+"payload", are used as defined in Sections 3 and 4 of {{RFC9052}}.
 
 This document uses "joint Statement" for a Signed Statement represented by a
 tagged `COSE_Sign` and constrained as specified in this document.  Each Issuer
@@ -274,11 +273,7 @@ counting signatures, keys, or merely unequal `iss` strings.  One authority can
 control multiple identifiers or keys.
 
 A Receipt binds the complete Statement registered by the Transparency Service,
-including its signatures array.  Before relying on the registered signature
-set, a Relying Party MUST verify the Receipt and apply its policy for acceptable
-Issuers and signature sets.  If that policy does not delegate verification of
-Issuer signatures to the Transparency Service's Registration Policy, the
-Relying Party MUST verify the applicable Issuer signatures.
+including its signatures array.
 
 # Privacy Considerations
 
