@@ -1,8 +1,8 @@
 <!-- regenerate: on (set to off if you edit this file) -->
 
-# Multiple-Issuer SCITT Statements with COSE_Sign
+# Multiple-Issuer Statements for the Supply Chain Integrity, Transparency, and Trust (SCITT) Architecture
 
-This is the working area for the individual Internet-Draft, "Multiple-Issuer SCITT Statements with COSE_Sign".
+This is the working area for the individual Internet-Draft, "Multiple-Issuer Statements for the Supply Chain Integrity, Transparency, and Trust (SCITT) Architecture".
 
 * [Editor's Copy](https://achamayou.github.io/draft-chamayou-scitt-cose-sign/#go.draft-chamayou-scitt-cose-sign.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-chamayou-scitt-cose-sign)
