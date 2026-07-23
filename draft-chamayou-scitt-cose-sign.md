@@ -83,7 +83,7 @@ require a Signed Statement or Transparent Statement to be a tagged
 COSE_Sign1, a tagged COSE_Sign is also permitted for a multiple-issuer
 Statement subject to this section.  Untagged forms are not permitted.
 
-`Multi_Issuer_Sign` is a constrained subtype of `COSE_Sign`, not a new COSE
+`Joint_Sign` is a constrained subtype of `COSE_Sign`, not a new COSE
 message type.  It uses CBOR tag 98 and the COSE_Sign signature creation and
 verification procedures in Section 4.4 of RFC 9052 without modification.
 
@@ -93,71 +93,71 @@ repeats its dependencies from {{RFC9052}}, RFC 9943, and {{RFC9360}}.
 ~~~ cddl
 Signed_Statement =
   #6.18(COSE_Sign1) /
-  #6.98(Multi_Issuer_Signed_Statement)
+  #6.98(Joint_Signed_Statement)
 
 Transparent_Statement =
   #6.18(COSE_Sign1) /
-  #6.98(Multi_Issuer_Transparent_Statement)
+  #6.98(Joint_Transparent_Statement)
 
-Submitted_Multi_Issuer_Statement =
-  #6.98(Multi_Issuer_Submission)
+Submitted_Joint_Statement =
+  #6.98(Joint_Submission)
 
-Multi_Issuer_Sign =
-  Multi_Issuer_Sign_Structure .within COSE_Sign
+Joint_Sign =
+  Joint_Sign_Structure .within COSE_Sign
 
-Multi_Issuer_Sign_Structure = [
+Joint_Sign_Structure = [
   body_protected: bstr .size 0,
   body_unprotected:
     Empty_Body_Unprotected_Header /
     Receipts_Body_Unprotected_Header,
   payload: bstr / nil,
-  signatures: [2* Multi_Issuer_Signature]
+  signatures: [2* Joint_Signature]
 ]
 
-Multi_Issuer_Submission =
-  Multi_Issuer_Submission_Structure .within Multi_Issuer_Sign
+Joint_Submission =
+  Joint_Submission_Structure .within Joint_Sign
 
-Multi_Issuer_Submission_Structure = [
+Joint_Submission_Structure = [
   body_protected: bstr .size 0,
   body_unprotected: Empty_Body_Unprotected_Header,
   payload: bstr / nil,
-  signatures: [2* Multi_Issuer_Signature]
+  signatures: [2* Joint_Signature]
 ]
 
-Multi_Issuer_Signed_Statement =
-  Multi_Issuer_Signed_Structure .within Multi_Issuer_Sign
+Joint_Signed_Statement =
+  Joint_Signed_Structure .within Joint_Sign
 
-Multi_Issuer_Signed_Structure = [
+Joint_Signed_Structure = [
   body_protected: bstr .size 0,
   body_unprotected: Empty_Body_Unprotected_Header,
   payload: bstr / nil,
-  signatures: [2* Registered_Multi_Issuer_Signature]
+  signatures: [2* Registered_Joint_Signature]
 ]
 
-Multi_Issuer_Transparent_Statement =
-  Multi_Issuer_Transparent_Structure .within Multi_Issuer_Sign
+Joint_Transparent_Statement =
+  Joint_Transparent_Structure .within Joint_Sign
 
-Multi_Issuer_Transparent_Structure = [
+Joint_Transparent_Structure = [
   body_protected: bstr .size 0,
   body_unprotected: Receipts_Body_Unprotected_Header,
   payload: bstr / nil,
-  signatures: [2* Registered_Multi_Issuer_Signature]
+  signatures: [2* Registered_Joint_Signature]
 ]
 
-Multi_Issuer_Signature =
-  Multi_Issuer_Signature_Structure .within COSE_Signature
+Joint_Signature =
+  Joint_Signature_Structure .within COSE_Signature
 
-Multi_Issuer_Signature_Structure = [
+Joint_Signature_Structure = [
   sign_protected: bstr .cbor Protected_Header,
   sign_unprotected: Signature_Unprotected_Header,
   signature: bstr
 ]
 
-Registered_Multi_Issuer_Signature =
-  Registered_Multi_Issuer_Signature_Structure
-    .within Multi_Issuer_Signature
+Registered_Joint_Signature =
+  Registered_Joint_Signature_Structure
+    .within Joint_Signature
 
-Registered_Multi_Issuer_Signature_Structure = [
+Registered_Joint_Signature_Structure = [
   sign_protected: bstr .cbor Protected_Header,
   sign_unprotected: {},
   signature: bstr
@@ -187,16 +187,16 @@ signature-specific.  The `content_type` parameter describes the common
 payload; it MUST either be absent from every signature or have the same value
 in every signature.  At least two distinct `iss` values MUST be present.
 
-`Submitted_Multi_Issuer_Statement` is the form accepted as Registration input.
+`Submitted_Joint_Statement` is the form accepted as Registration input.
 Its body unprotected header is empty, but its signature unprotected headers MAY
 contain values used for signature verification or Registration Policy
 evaluation.  The `receipts` parameter MUST NOT occur in a signature
 unprotected header.  Before adding the Statement to a Statement Sequence, the
 Transparency Service MUST remove all signature unprotected values to produce
-`Multi_Issuer_Signed_Statement`.  Consequently, the registered Statement has
+`Joint_Signed_Statement`.  Consequently, the registered Statement has
 empty body and signature unprotected headers.
 
-A `Multi_Issuer_Transparent_Statement` is a registered Statement with one or
+A `Joint_Transparent_Statement` is a registered Statement with one or
 more Receipts in its body unprotected header.  That header MUST contain only
 the `receipts` parameter (label 394).  Signature unprotected headers MUST
 remain empty.
