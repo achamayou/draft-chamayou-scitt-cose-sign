@@ -58,7 +58,7 @@ the same payload.  This document makes the limited changes needed for multiple
 Issuers to sign one Statement in the Supply Chain Integrity, Transparency, and
 Trust (SCITT) architecture defined by {{RFC9943}}.  Each signature carries its
 own SCITT protected header.  The `COSE_Sign` body protected header is empty.
-All other requirements of RFC 9943 continue to apply.
+All other requirements of {{RFC9943}} continue to apply.
 
 ## Motivation
 
@@ -77,9 +77,9 @@ over one common payload in one registered object.
 This document uses the terms "Artifact", "Issuer", "Receipt", "Registration",
 "Registration Policy", "Signed Statement", "Statement", "Statement Sequence",
 "Subject", "Transparency Service", and "Transparent Statement" as defined in
-Section 3 of {{RFC9943}}.  The terms `COSE_Sign`, `COSE_Sign1`, and
+{{Section 3 of RFC9943}}.  The terms `COSE_Sign`, `COSE_Sign1`, and
 `COSE_Signature`, and the terms "protected header", "unprotected header", and
-"payload", are used as defined in Sections 3 and 4 of {{RFC9052}}.
+"payload", are used as defined in {{Sections 3 and 4 of RFC9052}}.
 
 This document uses "joint Statement" for a Signed Statement represented by a
 tagged `COSE_Sign` and constrained as specified in this document.  Each Issuer
@@ -93,24 +93,24 @@ accepted at Registration transparent.
 
 # Multiple-Issuer Statements
 
-This document updates Sections 6 and 7 of RFC 9943.  Where those sections
-require a Signed Statement or Transparent Statement to be a tagged
-`COSE_Sign1`, a tagged `COSE_Sign` is also permitted for a multiple-issuer
-Statement subject to this section.  Untagged forms are not permitted.
+## Relationship to RFC 9943
 
-The mandatory CBOR tags distinguish the single-issuer and joint forms:
-`COSE_Sign1` uses tag 18, and `COSE_Sign` uses tag 98.  An implementation that
-supports only RFC 9943 will not necessarily accept the joint form.  Use of the
-same media type does not imply support for both forms.
+This document extends the `Signed_Statement` and `Transparent_Statement`
+definitions in {{Sections 6 and 7 of RFC9943}}.  A joint Statement uses tagged
+`COSE_Sign` (CBOR tag 98); the existing single-issuer form continues to use
+tagged `COSE_Sign1` (CBOR tag 18).  Untagged forms are not permitted.
 
-`Joint_Sign` is a constrained subtype of `COSE_Sign`, not a new COSE
-message type.  All top-level joint Statement forms use CBOR tag 98 and the
-`COSE_Sign` signature creation and verification procedures in Section 4.4 of
-RFC 9052 without modification.
+`Joint_Sign` constrains `COSE_Sign`; it does not define a new COSE message
+type.  The signing and verification procedures in
+{{Section 4.4 of RFC9052}} are unchanged.  An implementation of {{RFC9943}}
+does not necessarily support joint Statements, even though both forms use the
+same media type.
 
-The Concise Data Definition Language (CDDL) {{RFC8610}} below defines the
-extension.  {{cddl-dependencies}} repeats its dependencies from {{RFC9052}},
-{{RFC9943}}, and {{RFC9360}}.
+## Data Model
+
+The following Concise Data Definition Language (CDDL) {{RFC8610}} defines the
+single-issuer and joint Statement forms.  {{cddl-dependencies}} repeats the
+definitions imported from {{RFC9052}}, {{RFC9943}}, and {{RFC9360}}.
 
 ~~~ cddl
 Signed_Statement =
@@ -203,54 +203,62 @@ Receipts_Body_Unprotected_Header = {
 ~~~
 {: #statement-cddl title="Multiple-issuer SCITT statements" sourcecode-name="scitt-multi-issuer.cddl"}
 
-The `COSE_Sign` body protected header MUST be encoded as a zero-length byte
-string.  The body therefore contains no protected header parameters and no
-statement-wide Issuer or Subject.
-
 `Single_Issuer_Transparent_Sign1` restates, without changing, the requirement
-in Section 7 of RFC 9943 that a single-issuer Transparent Statement contain
-only `receipts` in its unprotected header.
+in {{Section 7 of RFC9943}} that a single-issuer Transparent Statement
+contain only `receipts` in its unprotected header.
 
-Each `COSE_Signature` protected header independently follows
-`Protected_Header` and `CWT_Claims` from Figure 3 of RFC 9943.  Each signature
-contains its own `iss` and `sub` Claims in the CBOR Web Token (CWT) Claims
-header parameter {{RFC9597}}.  Algorithm, key, certificate, Issuer, and Subject
-metadata are signature-specific.  The `content_type` parameter describes the
-common payload; it MUST either be absent from every signature or have the same
-value in every signature.
+## Protected Headers and Issuer Identity
+
+The `COSE_Sign` body protected header MUST be a zero-length byte string.
+Consequently, all Issuer- and Subject-specific metadata is carried by the
+individual signatures.
+
+Each `COSE_Signature` protected header MUST conform to `Protected_Header` and
+`CWT_Claims` from Figure 3 in {{Section 6.1 of RFC9943}} and contain its own
+`iss` and `sub` Claims in the CBOR Web Token (CWT) Claims header parameter
+defined in {{Section 2 of RFC9597}}.  Algorithm, key, certificate, Issuer, and
+Subject metadata is specific to that signature.
+
+The `content_type` parameter describes the common payload.  It MUST either be
+absent from every signature or have the same value in every signature.
 
 A joint Statement MUST contain signatures from at least two distinct Issuers.
-The Registration Policy MUST define how `iss` values map to Issuer identities
-and how aliases are handled.  Different `iss` string values MUST NOT, by
-themselves, be treated as proof that signatures are from distinct Issuers.
+The Registration Policy MUST define how `iss` values identify Issuers and how
+aliases are handled.  Unequal `iss` strings alone do not establish distinct
+Issuer identities.
 
-`Submitted_Joint_Statement` is the form accepted as Registration input.
-Its body unprotected header is either empty or contains only `receipts`, and
-its signature unprotected headers MAY contain values used for signature
-verification or Registration Policy evaluation.  The `receipts` parameter
-MUST NOT occur in a signature unprotected header.  Before adding the Statement
-to a Statement Sequence, the Transparency Service MUST remove all body and
-signature unprotected values to produce `Registered_Joint_Statement`.
-Consequently, the registered Statement has empty body and signature
-unprotected headers.  This permits an existing `Joint_Transparent_Statement`
-to be registered with another Transparency Service, as permitted by RFC 9943.
+## Registration and Transparency
 
-A `Joint_Transparent_Statement` is a registered Statement with one or
-more Receipts in its body unprotected header.  That header MUST contain only
-the `receipts` parameter (label 394).  Signature unprotected headers MUST
-remain empty.
+A `Submitted_Joint_Statement` may have an empty body unprotected header or one
+containing only `receipts`.  Signature unprotected headers MAY contain values
+used for verification or Registration Policy evaluation, but MUST NOT contain
+`receipts`.
 
-A Transparency Service that accepts `COSE_Sign` MUST verify every signature
-according to Section 4.4 of RFC 9052 using a key authorized for that
-signature's `iss` value.  It MUST apply the required-header and Registration
-Policy checks of RFC 9943 separately to each signature's protected header,
-including its `sub` value.  `COSE_Sign1` verification and its body `iss` and
-`sub` Claims are unchanged.
+During Registration, the Transparency Service MUST:
 
-# Security Considerations
+1. Verify every signature according to {{Section 4.4 of RFC9052}} using a
+   key authorized for that signature's `iss` value.
 
-The security considerations of {{RFC9943}}, {{RFC9052}}, and {{RFC9942}}
-apply.
+2. Apply the required-header and Registration Policy checks from
+   {{Section 6.3 of RFC9943}} to each signature's protected header.
+
+3. Remove all body and signature unprotected values before adding the
+   Statement to a Statement Sequence.
+
+The resulting `Registered_Joint_Statement` has empty body and signature
+unprotected headers.  Adding one or more Receipts to its body unprotected
+header produces a `Joint_Transparent_Statement`; its signature unprotected
+headers remain empty.
+
+A `Joint_Transparent_Statement` may subsequently be submitted to another
+Transparency Service.  Its existing Receipts are removed during Registration.
+
+`COSE_Sign1` verification and its body `iss` and `sub` Claims are unchanged.
+
+# Security Considerations {#security-considerations}
+
+The security considerations in {{Section 9 of RFC9943}},
+{{Section 12 of RFC9052}}, and {{Section 7 of RFC9942}} apply.
 
 Each `COSE_Signature` covers the common payload, the empty body protected
 header, its own protected header, and any externally supplied authenticated
@@ -277,11 +285,11 @@ including its signatures array.
 
 # Privacy Considerations
 
-The privacy considerations of {{RFC9943}} apply.  A multiple-issuer Statement
-exposes every Issuer and Subject identifier in integrity-protected but
-unencrypted headers.  Combining these identifiers in one Statement can reveal
-relationships between Issuers and enable correlation across identifier
-namespaces.
+The privacy considerations in {{Section 8 of RFC9943}} apply.  A
+multiple-issuer Statement exposes every Issuer and Subject identifier in
+integrity-protected but unencrypted headers.  Combining these identifiers in
+one Statement can reveal relationships between Issuers and enable correlation
+across identifier namespaces.
 
 # IANA Considerations
 
@@ -294,14 +302,14 @@ In the "Media Types" registry, IANA is requested to update the
 
 * Replace the "Security considerations" field with:
 
-  > Section 9.5 of RFC 9943 and Section 3 of this document.
+  > {{Section 9.5 of RFC9943}} and {{security-considerations}} of this document.
 
 * Replace the "Interoperability considerations" field with:
 
   > The mandatory CBOR tags distinguish the `COSE_Sign1` and `COSE_Sign`
   > forms.  Implementations that support only the `COSE_Sign1` form specified
-  > by RFC 9943 do not necessarily support the `COSE_Sign` form specified by
-  > this document.
+  > by {{Sections 6 and 7 of RFC9943}} do not necessarily support the
+  > `COSE_Sign` form specified by this document.
 
 * Replace the "Applications that use this media type" field with:
 
@@ -321,9 +329,10 @@ No other IANA actions are requested.
 # Repeated CDDL Definitions {#cddl-dependencies}
 
 For completeness, this appendix repeats the structural `COSE_Sign` rules from
-Sections 3 and 4.1 of RFC 9052; the SCITT rules from Figure 3 of RFC 9943; and
-the certificate rules from Section 2 of RFC 9360.  These rules are unchanged
-except for comments and formatting.
+{{Sections 3 and 4.1 of RFC9052}}; the SCITT rules from Figure 3 in
+{{Section 6.1 of RFC9943}}; and the certificate rules from
+{{Section 2 of RFC9360}}.  These rules are unchanged except for comments and
+formatting.
 
 ~~~ cddl
 ; Repeated from Sections 3 and 4.1 of RFC 9052.
