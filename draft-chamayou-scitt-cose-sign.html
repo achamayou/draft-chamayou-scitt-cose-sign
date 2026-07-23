@@ -4,16 +4,18 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>TODO - Your title</title>
-<meta content="Your Name Here" name="author">
+<title>Multiple-Issuer SCITT Statements with COSE_Sign</title>
+<meta content="Amaury Chamayou" name="author">
+<meta content="Yogesh Deshpande" name="author">
 <meta content="
-       TODO Abstract 
+       RFC 9943 defines single-issuer SCITT Signed Statements and Transparent
+Statements using COSE_Sign1.  This document updates RFC 9943 to additionally
+permit COSE_Sign, with each signature identifying its own issuer and subject.
+Receipts remain COSE_Sign1. 
     " name="description">
 <meta content="xml2rfc 3.34.0" name="generator">
-<meta content="next generation" name="keyword">
-<meta content="unicorn" name="keyword">
-<meta content="AI-native" name="keyword">
-<meta content="draft-todo-yourname-protocol-latest" name="ietf.draft">
+<meta content="Internet-Draft" name="keyword">
+<meta content="draft-chamayou-scitt-cose-sign-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.0
     Python 3.14.5
@@ -29,7 +31,7 @@
     requests 2.33.1
     wcwidth 0.8.2
 -->
-<link href="draft-todo-yourname-protocol.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-chamayou-scitt-cose-sign.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@font-face {
   font-family: 'Lora';
@@ -1045,11 +1047,11 @@ svg {
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="center">TODO - Abbreviation</td>
+<td class="center">Multi-Issuer SCITT</td>
 <td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Here</td>
+<td class="left">Chamayou &amp; Deshpande</td>
 <td class="center">Expires 24 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1058,45 +1060,51 @@ svg {
 <div id="internal-metadata" class="document-information">
 <dl id="identifiers">
 <dt class="label-workgroup">Workgroup:</dt>
-<dd class="workgroup">WG Working Group</dd>
+<dd class="workgroup">SCITT</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-todo-yourname-protocol-latest</dd>
+<dd class="internet-draft">draft-chamayou-scitt-cose-sign-latest</dd>
+<dt class="label-updates">Updates:</dt>
+<dd class="updates">
+<a href="https://www.rfc-editor.org/rfc/rfc9943" class="eref">9943</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
 <time datetime="2026-07-23" class="published">23 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
-<dd class="intended-status">Informational</dd>
+<dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
 <dd class="expires"><time datetime="2027-01-24">24 January 2027</time></dd>
-<dt class="label-authors">Author:</dt>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">Y. N. Here</div>
-<div class="org">Your Organization Here</div>
+      <div class="author-name">A. Chamayou</div>
+<div class="org">Microsoft</div>
+</div>
+<div class="author">
+      <div class="author-name">Y. Deshpande</div>
+<div class="org">Arm</div>
 </div>
 </dd>
 </dl>
 </div>
-<h1 id="title">TODO - Your title</h1>
+<h1 id="title">Multiple-Issuer SCITT Statements with COSE_Sign</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">TODO Abstract<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">RFC 9943 defines single-issuer SCITT Signed Statements and Transparent
+Statements using COSE_Sign1.  This document updates RFC 9943 to additionally
+permit COSE_Sign, with each signature identifying its own issuer and subject.
+Receipts remain COSE_Sign1.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
-      <h2 id="name-about-this-document">
-<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      <h2 id="name-discussion-venues">
+<a href="#name-discussion-venues" class="section-name selfRef">Discussion Venues</a>
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
-<p id="section-note.1-2">
-        The latest revision of this draft can be found at <span><a href="https://example.com/LATEST">https://example.com/LATEST</a></span>.
-        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-todo-yourname-protocol/">https://datatracker.ietf.org/doc/draft-todo-yourname-protocol/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
-<p id="section-note.1-3">
-        Discussion of this document takes place on the
-        WG Working Group mailing list (<span><a href="mailto:WG@example.com">mailto:WG@example.com</a></span>),
-        which is archived at <span><a href="https://example.com/WG">https://example.com/WG</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
-<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/USER/REPO">https://github.com/USER/REPO</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">Discussion of this document takes place on the
+    Supply Chain Integrity, Transparency, and Trust Working Group mailing list (scitt@ietf.org),
+    which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/scitt/">https://mailarchive.ietf.org/arch/browse/scitt/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+    <span><a href="https://github.com/achamayou/draft-chamayou-scitt-cose-sign">https://github.com/achamayou/draft-chamayou-scitt-cose-sign</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1148,24 +1156,35 @@ svg {
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-motivation" class="internal xref">Motivation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-requirements-notation" class="internal xref">Requirements Notation</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-multiple-issuer-statements" class="internal xref">Multiple-Issuer Statements</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-repeated-cddl-definitions" class="internal xref">Repeated CDDL Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1176,18 +1195,177 @@ svg {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">TODO Introduction<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">COSE_Sign supports multiple signatures over the same payload.  This document
+makes the limited changes needed for multiple issuers to sign one Statement in
+the SCITT architecture defined by <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.  Each signature carries its own
+SCITT protected header.  The COSE_Sign body protected header is empty.  All
+other requirements of RFC 9943 continue to apply.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<div id="motivation">
+<section id="section-1.1">
+        <h3 id="name-motivation">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-motivation" class="section-name selfRef">Motivation</a>
+        </h3>
+<p id="section-1.1-1">Some artifacts are accepted only after multiple authorities sign the same
+Statement.  For example, firmware might require signatures from a component
+manufacturer, a device manufacturer, and an enterprise deployment authority.
+Each Issuer can use its own key, algorithm, certificate chain, subject, and
+other protected metadata.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">Separate COSE_Sign1 objects represent independent Signed Statements and
+registrations.  COSE_Sign packages issuer-specific signatures over one common
+payload in one registered object.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1-3">This document uses "joint Statement" in that limited sense.  Each Issuer signs
+the common payload and its own protected headers, but does not sign or endorse
+the other signatures.  A Receipt makes the exact signature set accepted at
+Registration transparent.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="conventions-and-definitions">
-<section id="section-2">
-      <h2 id="name-conventions-and-definitions">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
-      </h2>
-<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+<div id="requirements-notation">
+<section id="section-1.2">
+        <h3 id="name-requirements-notation">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-requirements-notation" class="section-name selfRef">Requirements Notation</a>
+        </h3>
+<p id="section-1.2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
-appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+appear in all capitals, as shown here.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="multiple-issuer-statements">
+<section id="section-2">
+      <h2 id="name-multiple-issuer-statements">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-multiple-issuer-statements" class="section-name selfRef">Multiple-Issuer Statements</a>
+      </h2>
+<p id="section-2-1">This document updates Sections 6 and 7 of RFC 9943.  Where those sections
+require a Signed Statement or Transparent Statement to be a tagged
+COSE_Sign1, a tagged COSE_Sign is also permitted for a multiple-issuer
+Statement subject to this section.  Untagged forms are not permitted.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2"><code>Multi_Issuer_Sign</code> is a constrained subtype of <code>COSE_Sign</code>, not a new COSE
+message type.  It uses CBOR tag 98 and the COSE_Sign signature creation and
+verification procedures in Section 4.4 of RFC 9052 without modification.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">The CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> below defines the extension.  <a href="#cddl-dependencies" class="auto internal xref">Appendix A</a>
+repeats its dependencies from <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>, RFC 9943, and <span>[<a href="#RFC9360" class="cite xref">RFC9360</a>]</span>.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<span id="name-multiple-issuer-scitt-state"></span><div id="statement-cddl">
+<figure id="figure-1">
+        <div class="breakable lang-cddl sourcecode" id="section-2-4.1">
+<pre>
+Signed_Statement =
+  #6.18(COSE_Sign1) /
+  #6.98(Multi_Issuer_Signed_Statement)
+
+Transparent_Statement =
+  #6.18(COSE_Sign1) /
+  #6.98(Multi_Issuer_Transparent_Statement)
+
+Submitted_Multi_Issuer_Statement =
+  #6.98(Multi_Issuer_Submission)
+
+Multi_Issuer_Sign =
+  Multi_Issuer_Sign_Structure .within COSE_Sign
+
+Multi_Issuer_Sign_Structure = [
+  body_protected: bstr .size 0,
+  body_unprotected:
+    Empty_Body_Unprotected_Header /
+    Receipts_Body_Unprotected_Header,
+  payload: bstr / nil,
+  signatures: [2* Multi_Issuer_Signature]
+]
+
+Multi_Issuer_Submission =
+  Multi_Issuer_Submission_Structure .within Multi_Issuer_Sign
+
+Multi_Issuer_Submission_Structure = [
+  body_protected: bstr .size 0,
+  body_unprotected: Empty_Body_Unprotected_Header,
+  payload: bstr / nil,
+  signatures: [2* Multi_Issuer_Signature]
+]
+
+Multi_Issuer_Signed_Statement =
+  Multi_Issuer_Signed_Structure .within Multi_Issuer_Sign
+
+Multi_Issuer_Signed_Structure = [
+  body_protected: bstr .size 0,
+  body_unprotected: Empty_Body_Unprotected_Header,
+  payload: bstr / nil,
+  signatures: [2* Registered_Multi_Issuer_Signature]
+]
+
+Multi_Issuer_Transparent_Statement =
+  Multi_Issuer_Transparent_Structure .within Multi_Issuer_Sign
+
+Multi_Issuer_Transparent_Structure = [
+  body_protected: bstr .size 0,
+  body_unprotected: Receipts_Body_Unprotected_Header,
+  payload: bstr / nil,
+  signatures: [2* Registered_Multi_Issuer_Signature]
+]
+
+Multi_Issuer_Signature =
+  Multi_Issuer_Signature_Structure .within COSE_Signature
+
+Multi_Issuer_Signature_Structure = [
+  sign_protected: bstr .cbor Protected_Header,
+  sign_unprotected: Signature_Unprotected_Header,
+  signature: bstr
+]
+
+Registered_Multi_Issuer_Signature =
+  Registered_Multi_Issuer_Signature_Structure
+    .within Multi_Issuer_Signature
+
+Registered_Multi_Issuer_Signature_Structure = [
+  sign_protected: bstr .cbor Protected_Header,
+  sign_unprotected: {},
+  signature: bstr
+]
+
+Signature_Unprotected_Header = {
+  * ((int .ne 394) / tstr) =&gt; any
+}
+
+Empty_Body_Unprotected_Header = {}
+
+Receipts_Body_Unprotected_Header = {
+  &amp;(receipts: 394) =&gt; [+ bstr .cbor Receipt]
+}
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-multiple-issuer-scitt-state" class="selfRef">Multiple-issuer SCITT statements</a>
+        </figcaption></figure>
+</div>
+<p id="section-2-5">The COSE_Sign body protected header <span class="bcp14">MUST</span> be encoded as a zero-length byte
+string.  The body therefore contains no protected header parameters and no
+statement-wide Issuer or Subject.<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">Each COSE_Signature protected header independently follows <code>Protected_Header</code>
+and <code>CWT_Claims</code> from Figure 3 of RFC 9943.  Each signature contains its own
+<code>iss</code> and <code>sub</code> Claims in the CWT Claims header parameter <span>[<a href="#RFC9597" class="cite xref">RFC9597</a>]</span>.
+Algorithm, key, certificate, Issuer, and Subject metadata are
+signature-specific.  The <code>content_type</code> parameter describes the common
+payload; it <span class="bcp14">MUST</span> either be absent from every signature or have the same value
+in every signature.  At least two distinct <code>iss</code> values <span class="bcp14">MUST</span> be present.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7"><code>Submitted_Multi_Issuer_Statement</code> is the form accepted as Registration input.
+Its body unprotected header is empty, but its signature unprotected headers <span class="bcp14">MAY</span>
+contain values used for signature verification or Registration Policy
+evaluation.  The <code>receipts</code> parameter <span class="bcp14">MUST NOT</span> occur in a signature
+unprotected header.  Before adding the Statement to a Statement Sequence, the
+Transparency Service <span class="bcp14">MUST</span> remove all signature unprotected values to produce
+<code>Multi_Issuer_Signed_Statement</code>.  Consequently, the registered Statement has
+empty body and signature unprotected headers.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">A <code>Multi_Issuer_Transparent_Statement</code> is a registered Statement with one or
+more Receipts in its body unprotected header.  That header <span class="bcp14">MUST</span> contain only
+the <code>receipts</code> parameter (label 394).  Signature unprotected headers <span class="bcp14">MUST</span>
+remain empty.<a href="#section-2-8" class="pilcrow">¶</a></p>
+<p id="section-2-9">A Transparency Service that accepts COSE_Sign <span class="bcp14">MUST</span> verify every signature
+according to Section 4.4 of RFC 9052 using a key authorized for that
+signature's <code>iss</code> value.  It <span class="bcp14">MUST</span> apply the required-header and Registration
+Policy checks of RFC 9943 separately to each signature's protected header,
+including its <code>sub</code> value.  Its Registration Policy <span class="bcp14">MAY</span> additionally require
+a specific set or threshold of distinct issuers or issuer-subject pairs.
+COSE_Sign1 verification and its body <code>iss</code> and <code>sub</code> Claims are unchanged.<a href="#section-2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
@@ -1195,21 +1373,50 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-security-considerations">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-3-1">TODO Security<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">The security considerations of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>, <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>, and <span>[<a href="#RFC9942" class="cite xref">RFC9942</a>]</span>
+apply.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Each COSE_Signature covers the common payload, the empty body protected header,
+and its own protected header.  It does not cover other entries in the
+signatures array.  A holder can therefore add or remove independently valid
+signatures without invalidating the remaining signatures.  In particular,
+this format does not prove that an Issuer knew of or endorsed another Issuer.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">A policy requiring a fixed issuer set or threshold <span class="bcp14">MUST</span> define that
+requirement independently of the signatures array and <span class="bcp14">MUST</span> count distinct,
+successfully verified <code>iss</code> values rather than array entries.  This document
+does not provide atomic "all issuers or none" semantics before Registration.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">A Receipt binds the complete Statement registered by the Transparency Service,
+including its signatures array.  A Relying Party <span class="bcp14">MUST</span> verify both the Receipt
+and its applicable issuer policy before relying on the registered signature
+set.<a href="#section-3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="privacy-considerations">
+<section id="section-4">
+      <h2 id="name-privacy-considerations">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
+      </h2>
+<p id="section-4-1">The privacy considerations of RFC 9943 apply.  A multiple-issuer Statement
+exposes every issuer and subject identifier in protected, but unencrypted,
+headers.<a href="#section-4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-4">
+<section id="section-5">
       <h2 id="name-iana-considerations">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-4-1">This document has no IANA actions.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">IANA is requested to add this document as an additional reference for the
+<code>application/scitt-statement+cose</code> media type and for CoAP Content-Format 277.
+In that media type registration, "signed by an Issuer" is replaced by "signed
+by one or more Issuers".
+No new media type, Content-Format, CBOR tag, or COSE header parameter is
+registered.<a href="#section-5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-normative-references">
-<section id="section-5">
+<section id="section-6">
       <h2 id="name-normative-references">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
@@ -1217,31 +1424,145 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8610">[RFC8610]</dt>
+      <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Vigano, C.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures"</span>, <span class="seriesInfo">RFC 8610</span>, <span class="seriesInfo">DOI 10.17487/RFC8610</span>, <time datetime="2019-06" class="refDate">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8610">https://www.rfc-editor.org/rfc/rfc8610</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9052">[RFC9052]</dt>
+      <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Structures and Process"</span>, <span class="seriesInfo">STD 96</span>, <span class="seriesInfo">RFC 9052</span>, <span class="seriesInfo">DOI 10.17487/RFC9052</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9052">https://www.rfc-editor.org/rfc/rfc9052</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9360">[RFC9360]</dt>
+      <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Header Parameters for Carrying and Referencing X.509 Certificates"</span>, <span class="seriesInfo">RFC 9360</span>, <span class="seriesInfo">DOI 10.17487/RFC9360</span>, <time datetime="2023-02" class="refDate">February 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9360">https://www.rfc-editor.org/rfc/rfc9360</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9597">[RFC9597]</dt>
+      <dd>
+<span class="refAuthor">Looker, T.</span> and <span class="refAuthor">M.B. Jones</span>, <span class="refTitle">"CBOR Web Token (CWT) Claims in COSE Headers"</span>, <span class="seriesInfo">RFC 9597</span>, <span class="seriesInfo">DOI 10.17487/RFC9597</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9597">https://www.rfc-editor.org/rfc/rfc9597</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9942">[RFC9942]</dt>
+      <dd>
+<span class="refAuthor">Steele, O.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Delignat-Lavaud, A.</span>, and <span class="refAuthor">C. Fournet</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE) Receipts"</span>, <span class="seriesInfo">RFC 9942</span>, <span class="seriesInfo">DOI 10.17487/RFC9942</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9942">https://www.rfc-editor.org/rfc/rfc9942</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9943">[RFC9943]</dt>
+    <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Delignat-Lavaud, A.</span>, <span class="refAuthor">Fournet, C.</span>, <span class="refAuthor">Deshpande, Y.</span>, and <span class="refAuthor">S. Lasker</span>, <span class="refTitle">"An Architecture for Trustworthy and Transparent Digital Supply Chains"</span>, <span class="seriesInfo">RFC 9943</span>, <span class="seriesInfo">DOI 10.17487/RFC9943</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9943">https://www.rfc-editor.org/rfc/rfc9943</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
-<div id="acknowledgments">
+<div id="cddl-dependencies">
 <section id="appendix-A">
-      <h2 id="name-acknowledgments">
-<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      <h2 id="name-repeated-cddl-definitions">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-repeated-cddl-definitions" class="section-name selfRef">Repeated CDDL Definitions</a>
       </h2>
-<p id="appendix-A-1">TODO acknowledge.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">For completeness, this appendix repeats the structural <code>COSE_Sign</code> rules from
+Sections 3 and 4.1 of RFC 9052; the SCITT rules from Figure 3 of RFC 9943; and
+the certificate rules from Section 2 of RFC 9360.  These rules are unchanged
+except for comments and formatting.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<div class="breakable lang-cddl sourcecode" id="appendix-A-2">
+<pre>
+; Repeated from Sections 3 and 4.1 of RFC 9052.
+COSE_Sign = [
+  Headers,
+  payload : bstr / nil,
+  signatures : [+ COSE_Signature]
+]
+
+COSE_Signature = [
+  Headers,
+  signature : bstr
+]
+
+Headers = (
+  protected : empty_or_serialized_map,
+  unprotected : header_map
+)
+
+header_map = {
+  Generic_Headers,
+  * label =&gt; values
+}
+
+empty_or_serialized_map =
+  bstr .cbor header_map / bstr .size 0
+
+Generic_Headers = (
+  ? 1 =&gt; int / tstr,
+  ? 2 =&gt; [+label],
+  ? 3 =&gt; tstr / int,
+  ? 4 =&gt; bstr,
+  ? ( 5 =&gt; bstr //
+      6 =&gt; bstr )
+)
+
+values = any
+
+; Repeated unchanged from Figure 3 of RFC 9943.
+Receipt = #6.18(COSE_Sign1)
+
+COSE_Sign1 = [
+  protected   : bstr .cbor Protected_Header,
+  unprotected : Unprotected_Header,
+  payload     : bstr / nil,
+  signature   : bstr
+]
+
+Protected_Header = {
+  &amp;(CWT_Claims: 15) =&gt; CWT_Claims
+  ? &amp;(alg: 1) =&gt; int
+  ? &amp;(content_type: 3) =&gt; tstr / uint
+  ? &amp;(kid: 4) =&gt; bstr
+  ? &amp;(x5t: 34) =&gt; COSE_CertHash
+  ? &amp;(x5chain: 33) =&gt; COSE_X509
+  * label =&gt; any
+}
+
+CWT_Claims = {
+  &amp;(iss: 1) =&gt; tstr
+  &amp;(sub: 2) =&gt; tstr
+  * label =&gt; any
+}
+
+Unprotected_Header = {
+  ? &amp;(x5chain: 33) =&gt; COSE_X509
+  ? &amp;(receipts: 394) =&gt; [+ bstr .cbor Receipt]
+  * label =&gt; any
+}
+
+label = int / tstr
+
+; Repeated from Section 2 of RFC 9360.
+COSE_X509 = bstr / [ 2*certs: bstr ]
+COSE_CertHash = [ hashAlg: (int / tstr), hashValue: bstr ]
+</pre><a href="#appendix-A-2" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 <div id="authors-addresses">
 <section id="appendix-B">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Your Name Here</span></div>
-<div dir="auto" class="left"><span class="org">Your Organization Here</span></div>
+        <div dir="auto" class="left"><span class="fn nameRole">Amaury Chamayou</span></div>
+<div dir="auto" class="left"><span class="org">Microsoft</span></div>
+<div dir="auto" class="left"><span class="country-name">United Kingdom</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:your.email@example.com" class="email">your.email@example.com</a>
+<a href="mailto:amaury.chamayou@microsoft.com" class="email">amaury.chamayou@microsoft.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Yogesh Deshpande</span></div>
+<div dir="auto" class="left"><span class="org">Arm</span></div>
+<div dir="auto" class="left"><span class="country-name">United Kingdom</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:yogesh.deshpande@arm.com" class="email">yogesh.deshpande@arm.com</a>
 </div>
 </address>
 </section>
