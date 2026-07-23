@@ -3,7 +3,7 @@ v: 3
 
 title: Multiple-Issuer SCITT Statements with COSE_Sign
 abbrev: Multi-Issuer SCITT
-docname: draft-chamayou-scitt-cose-sign-00
+docname: draft-chamayou-scitt-cose-sign-latest
 date: 2026-07-23
 updates: 9943
 
