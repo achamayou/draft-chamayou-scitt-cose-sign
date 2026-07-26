@@ -1,0 +1,111 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2026-07-26T01:30:52.447108+00:00",
+  "repo": "achamayou/draft-chamayou-scitt-cose-sign",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOThaufc71doid",
+      "title": "Set up Multiple-Issuer SCITT draft repository",
+      "url": "https://github.com/achamayou/draft-chamayou-scitt-cose-sign/pull/1",
+      "state": "MERGED",
+      "author": "achamayou",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "## Summary\n- install `draft-chamayou-scitt-cose-sign.md` from `achamayou/drafts@cf4372b`, with only the template-required `docname` working-copy normalization\n- generate the standard i-d-template README, contribution metadata, ownership, Makefile, ignore rules, workflows, and GitHub Pages integration\n- configure SCITT working-group discussion venues and remove the placeholder/setup workflow\n\n## Testing\n- `make`",
+      "createdAt": "2026-07-23T16:18:03Z",
+      "updatedAt": "2026-07-23T16:20:00Z",
+      "baseRepository": "achamayou/draft-chamayou-scitt-cose-sign",
+      "baseRefName": "main",
+      "baseRefOid": "16e6707793f3ca950de50b9b80c4526004caeb36",
+      "headRepository": "achamayou/draft-chamayou-scitt-cose-sign",
+      "headRefName": "achamayou-install-scitt-draft",
+      "headRefOid": "bbb3c3724d2bacd536464bace0d09f91e4acca43",
+      "closedAt": "2026-07-23T16:19:58Z",
+      "mergedAt": "2026-07-23T16:19:58Z",
+      "mergedBy": "achamayou",
+      "mergeCommit": {
+        "oid": "8711a2a35fb5d5ed28d01945590c28ed45495d40"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOThaufc71eN7w",
+      "title": "Rename multi-issuer CDDL types to joint",
+      "url": "https://github.com/achamayou/draft-chamayou-scitt-cose-sign/pull/2",
+      "state": "MERGED",
+      "author": "achamayou",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "## Summary\n- rename the `Multi_Issuer` CDDL type family to `Joint`\n- apply the same naming to signed, transparent, submitted, registered, signature, and structure types\n- update prose references to the renamed types\n\n## Testing\n- `make`",
+      "createdAt": "2026-07-23T16:41:21Z",
+      "updatedAt": "2026-07-23T16:43:44Z",
+      "baseRepository": "achamayou/draft-chamayou-scitt-cose-sign",
+      "baseRefName": "main",
+      "baseRefOid": "8711a2a35fb5d5ed28d01945590c28ed45495d40",
+      "headRepository": "achamayou/draft-chamayou-scitt-cose-sign",
+      "headRefName": "achamayou-install-scitt-draft",
+      "headRefOid": "401aa7f0df41ccacdde2003ff1b0fb38afe75575",
+      "closedAt": "2026-07-23T16:43:44Z",
+      "mergedAt": "2026-07-23T16:43:44Z",
+      "mergedBy": "achamayou",
+      "mergeCommit": {
+        "oid": "dbf686dbffa9d0d6b9eb926ce69ebcfd226936a3"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
