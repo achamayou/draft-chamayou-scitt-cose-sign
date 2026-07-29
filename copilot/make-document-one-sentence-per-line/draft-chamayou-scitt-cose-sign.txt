@@ -1,0 +1,517 @@
+
+
+
+
+SCITT                                                        A. Chamayou
+Internet-Draft                                                 Microsoft
+Updates: 9943 (if approved)                                 Y. Deshpande
+Intended status: Standards Track                                     Arm
+Expires: 24 January 2027                                    23 July 2026
+
+
+Multiple-Issuer Statements for the Supply Chain Integrity, Transparency,
+                     and Trust (SCITT) Architecture
+                 draft-chamayou-scitt-cose-sign-latest
+
+Abstract
+
+   RFC 9943 defines Supply Chain Integrity, Transparency, and Trust
+   (SCITT) Signed Statements and Transparent Statements using
+   COSE_Sign1, the single-signer structure defined by Concise Binary
+   Object Representation (CBOR) Object Signing and Encryption (COSE).
+   This document updates RFC 9943 to permit Statements signed by
+   multiple distinct Issuers to use COSE_Sign.  Each signature
+   identifies its own Issuer and Subject.  Receipts remain COSE_Sign1
+   structures.
+
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Discussion of this document takes place on the Supply Chain
+   Integrity, Transparency, and Trust Working Group mailing list
+   (scitt@ietf.org), which is archived at
+   https://mailarchive.ietf.org/arch/browse/scitt/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/achamayou/draft-chamayou-scitt-cose-sign.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 24 January 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+     1.1.  Motivation
+     1.2.  Terminology
+     1.3.  Requirements Notation
+   2.  Multiple-Issuer Statements
+     2.1.  Relationship to RFC 9943
+     2.2.  Data Model
+     2.3.  Protected Headers and Issuer Identity
+     2.4.  Registration and Transparency
+   3.  Security Considerations
+   4.  Privacy Considerations
+   5.  IANA Considerations
+     5.1.  Media Types Registry
+     5.2.  CoAP Content-Formats Registry
+   6.  Normative References
+   Appendix A.  Repeated CDDL Definitions
+   Authors' Addresses
+
+1.  Introduction
+
+   Concise Binary Object Representation (CBOR) Object Signing and
+   Encryption (COSE) defines COSE_Sign, a structure that supports
+   multiple signatures over the same payload.  This document makes the
+   limited changes needed for multiple Issuers to sign one Statement in
+   the Supply Chain Integrity, Transparency, and Trust (SCITT)
+   architecture defined by [RFC9943].  Each signature carries its own
+   SCITT protected header.  The COSE_Sign body protected header is
+   empty.  All other requirements of [RFC9943] continue to apply.
+
+1.1.  Motivation
+
+   Some Artifacts are accepted only after multiple authorities sign the
+   same Statement.  For example, firmware might require signatures from
+   a component manufacturer, a device manufacturer, and an enterprise
+   deployment authority.  Each Issuer can use its own key, algorithm,
+   certificate chain, Subject, and other protected metadata.
+
+   Using separate COSE_Sign1 objects produces independent Signed
+   Statements that are registered separately.  COSE_Sign packages
+   Issuer-specific signatures over one common payload in one registered
+   object.
+
+1.2.  Terminology
+
+   This document uses the terms "Artifact", "Issuer", "Receipt",
+   "Registration", "Registration Policy", "Signed Statement",
+   "Statement", "Statement Sequence", "Subject", "Transparency Service",
+   and "Transparent Statement" as defined in Section 3 of [RFC9943].
+   The terms COSE_Sign, COSE_Sign1, and COSE_Signature, and the terms
+   "protected header", "unprotected header", and "payload", are used as
+   defined in Sections 3 and 4 of [RFC9052].
+
+   This document uses "joint Statement" for a Signed Statement
+   represented by a tagged COSE_Sign and constrained as specified in
+   this document.  Each Issuer signs the common payload and its own
+   protected headers, but does not sign or endorse the other signatures.
+   A Receipt makes the exact signature set accepted at Registration
+   transparent.
+
+1.3.  Requirements Notation
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2.  Multiple-Issuer Statements
+
+2.1.  Relationship to RFC 9943
+
+   This document extends the Signed_Statement and Transparent_Statement
+   definitions in Sections 6 and 7 of [RFC9943].  A joint Statement uses
+   tagged COSE_Sign (CBOR tag 98); the existing single-issuer form
+   continues to use tagged COSE_Sign1 (CBOR tag 18).  Untagged forms are
+   not permitted.
+
+   Joint_Sign constrains COSE_Sign; it does not define a new COSE
+   message type.  The signing and verification procedures in Section 4.4
+   of [RFC9052] are unchanged.  An implementation of [RFC9943] does not
+   necessarily support joint Statements, even though both forms use the
+   same media type.
+
+2.2.  Data Model
+
+   The following Concise Data Definition Language (CDDL) [RFC8610]
+   defines the single-issuer and joint Statement forms.  Appendix A
+   repeats the definitions imported from [RFC9052], [RFC9943], and
+   [RFC9360].
+
+   Signed_Statement =
+     #6.18(COSE_Sign1) /
+     Submitted_Joint_Statement
+
+   Transparent_Statement =
+     #6.18(Single_Issuer_Transparent_Sign1) /
+     Joint_Transparent_Statement
+
+   Submitted_Joint_Statement =
+     #6.98(Joint_Sign)
+
+   Registered_Joint_Statement =
+     #6.98(Registered_Joint_Sign)
+
+   Joint_Transparent_Statement =
+     #6.98(Joint_Transparent_Sign)
+
+   Single_Issuer_Transparent_Sign1 =
+     Single_Issuer_Transparent_Structure .within COSE_Sign1
+
+   Single_Issuer_Transparent_Structure = [
+     protected: bstr .cbor Protected_Header,
+     unprotected: Receipts_Body_Unprotected_Header,
+     payload: bstr / nil,
+     signature: bstr
+   ]
+
+   Joint_Sign =
+     Joint_Sign_Structure .within COSE_Sign
+
+   Joint_Sign_Structure = [
+     body_protected: bstr .size 0,
+     body_unprotected:
+       Empty_Body_Unprotected_Header /
+       Receipts_Body_Unprotected_Header,
+     payload: bstr / nil,
+     signatures: [2* Joint_Signature]
+   ]
+
+   Registered_Joint_Sign =
+     Registered_Joint_Structure .within Joint_Sign
+
+   Registered_Joint_Structure = [
+     body_protected: bstr .size 0,
+     body_unprotected: Empty_Body_Unprotected_Header,
+     payload: bstr / nil,
+     signatures: [2* Registered_Joint_Signature]
+   ]
+
+   Joint_Transparent_Sign =
+     Joint_Transparent_Structure .within Joint_Sign
+
+   Joint_Transparent_Structure = [
+     body_protected: bstr .size 0,
+     body_unprotected: Receipts_Body_Unprotected_Header,
+     payload: bstr / nil,
+     signatures: [2* Registered_Joint_Signature]
+   ]
+
+   Joint_Signature =
+     Joint_Signature_Structure .within COSE_Signature
+
+   Joint_Signature_Structure = [
+     sign_protected: bstr .cbor Protected_Header,
+     sign_unprotected: Signature_Unprotected_Header,
+     signature: bstr
+   ]
+
+   Registered_Joint_Signature =
+     Registered_Joint_Signature_Structure
+       .within Joint_Signature
+
+   Registered_Joint_Signature_Structure = [
+     sign_protected: bstr .cbor Protected_Header,
+     sign_unprotected: {},
+     signature: bstr
+   ]
+
+   Signature_Unprotected_Header = {
+     * ((int .ne 394) / tstr) => any
+   }
+
+   Empty_Body_Unprotected_Header = {}
+
+   Receipts_Body_Unprotected_Header = {
+     &(receipts: 394) => [+ bstr .cbor Receipt]
+   }
+
+                 Figure 1: Multiple-issuer SCITT statements
+
+   Single_Issuer_Transparent_Sign1 restates, without changing, the
+   requirement in Section 7 of [RFC9943] that a single-issuer
+   Transparent Statement contain only receipts in its unprotected
+   header.
+
+2.3.  Protected Headers and Issuer Identity
+
+   The COSE_Sign body protected header MUST be a zero-length byte
+   string.  Consequently, all Issuer- and Subject-specific metadata is
+   carried by the individual signatures.
+
+   Each COSE_Signature protected header MUST conform to Protected_Header
+   and CWT_Claims from Figure 3 in Section 6.1 of [RFC9943] and contain
+   its own iss and sub Claims in the CBOR Web Token (CWT) Claims header
+   parameter defined in Section 2 of [RFC9597].  Algorithm, key,
+   certificate, Issuer, and Subject metadata is specific to that
+   signature.
+
+   The content_type parameter describes the common payload.  It MUST
+   either be absent from every signature or have the same value in every
+   signature.
+
+   A joint Statement MUST contain signatures from at least two distinct
+   Issuers.  The Registration Policy MUST define how iss values identify
+   Issuers and how aliases are handled.  Unequal iss strings alone do
+   not establish distinct Issuer identities.
+
+2.4.  Registration and Transparency
+
+   A Submitted_Joint_Statement may have an empty body unprotected header
+   or one containing only receipts.  Signature unprotected headers MAY
+   contain values used for verification or Registration Policy
+   evaluation, but MUST NOT contain receipts.
+
+   During Registration, the Transparency Service MUST:
+
+   1.  Verify every signature according to Section 4.4 of [RFC9052]
+       using a key authorized for that signature's iss value.
+
+   2.  Apply the required-header and Registration Policy checks from
+       Section 6.3 of [RFC9943] to each signature's protected header.
+
+   3.  Remove all body and signature unprotected values before adding
+       the Statement to a Statement Sequence.
+
+   The resulting Registered_Joint_Statement has empty body and signature
+   unprotected headers.  Adding one or more Receipts to its body
+   unprotected header produces a Joint_Transparent_Statement; its
+   signature unprotected headers remain empty.
+
+   A Joint_Transparent_Statement may subsequently be submitted to
+   another Transparency Service.  Its existing Receipts are removed
+   during Registration.
+
+   COSE_Sign1 verification and its body iss and sub Claims are
+   unchanged.
+
+3.  Security Considerations
+
+   The security considerations in Section 9 of [RFC9943], Section 12 of
+   [RFC9052], and Section 7 of [RFC9942] apply.
+
+   Each COSE_Signature covers the common payload, the empty body
+   protected header, its own protected header, and any externally
+   supplied authenticated data used with the signature.  It does not
+   cover the body or signature unprotected headers or other entries in
+   the signatures array.  A holder can therefore reorder or remove
+   signatures, add independently valid signatures, or modify unprotected
+   headers without invalidating the remaining signatures.  In
+   particular, this format does not prove that an Issuer knew of or
+   endorsed another Issuer.
+
+   A Transparency Service MUST treat body and signature unprotected
+   header values as unauthenticated.  It MAY use them to locate
+   signature verification material or as Registration Policy input, but
+   it MUST NOT treat them as assertions by an Issuer unless another
+   mechanism authenticates them.
+
+   When determining whether a joint Statement has signatures from at
+   least two distinct Issuers, a verifier MUST count distinct,
+   successfully verified, and authorized Issuers after applying its
+   identity and alias rules, rather than counting signatures, keys, or
+   merely unequal iss strings.  One authority can control multiple
+   identifiers or keys.
+
+   A Receipt binds the complete Statement registered by the Transparency
+   Service, including its signatures array.
+
+4.  Privacy Considerations
+
+   The privacy considerations in Section 8 of [RFC9943] apply.  A
+   multiple-issuer Statement exposes every Issuer and Subject identifier
+   in integrity-protected but unencrypted headers.  Combining these
+   identifiers in one Statement can reveal relationships between Issuers
+   and enable correlation across identifier namespaces.
+
+5.  IANA Considerations
+
+5.1.  Media Types Registry
+
+   In the "Media Types" registry, IANA is requested to update the
+   application/scitt-statement+cose registration as follows:
+
+   *  Add this document to the "Published specification" field.
+
+   *  Replace the "Security considerations" field with:
+
+         Section 9.5 of [RFC9943] and Section 3 of this document.
+
+   *  Replace the "Interoperability considerations" field with:
+
+         The mandatory CBOR tags distinguish the COSE_Sign1 and
+         COSE_Sign forms.  Implementations that support only the
+         COSE_Sign1 form specified by Sections 6 and 7 of [RFC9943] do
+         not necessarily support the COSE_Sign form specified by this
+         document.
+
+   *  Replace the "Applications that use this media type" field with:
+
+         Used to provide an identifiable and non-repudiable Statement
+         about an Artifact signed by one or more Issuers.
+
+5.2.  CoAP Content-Formats Registry
+
+   In the "CoAP Content-Formats" registry, IANA is requested to list
+   this document as an additional reference for ID 277 (application/
+   scitt-statement+cose).
+
+   No other IANA actions are requested.
+
+6.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8610]  Birkholz, H., Vigano, C., and C. Bormann, "Concise Data
+              Definition Language (CDDL): A Notational Convention to
+              Express Concise Binary Object Representation (CBOR) and
+              JSON Data Structures", RFC 8610, DOI 10.17487/RFC8610,
+              June 2019, <https://www.rfc-editor.org/rfc/rfc8610>.
+
+   [RFC9052]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
+              Structures and Process", STD 96, RFC 9052,
+              DOI 10.17487/RFC9052, August 2022,
+              <https://www.rfc-editor.org/rfc/rfc9052>.
+
+   [RFC9360]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
+              Header Parameters for Carrying and Referencing X.509
+              Certificates", RFC 9360, DOI 10.17487/RFC9360, February
+              2023, <https://www.rfc-editor.org/rfc/rfc9360>.
+
+   [RFC9597]  Looker, T. and M.B. Jones, "CBOR Web Token (CWT) Claims in
+              COSE Headers", RFC 9597, DOI 10.17487/RFC9597, June 2024,
+              <https://www.rfc-editor.org/rfc/rfc9597>.
+
+   [RFC9942]  Steele, O., Birkholz, H., Delignat-Lavaud, A., and C.
+              Fournet, "CBOR Object Signing and Encryption (COSE)
+              Receipts", RFC 9942, DOI 10.17487/RFC9942, June 2026,
+              <https://www.rfc-editor.org/rfc/rfc9942>.
+
+   [RFC9943]  Birkholz, H., Delignat-Lavaud, A., Fournet, C., Deshpande,
+              Y., and S. Lasker, "An Architecture for Trustworthy and
+              Transparent Digital Supply Chains", RFC 9943,
+              DOI 10.17487/RFC9943, June 2026,
+              <https://www.rfc-editor.org/rfc/rfc9943>.
+
+Appendix A.  Repeated CDDL Definitions
+
+   For completeness, this appendix repeats the structural COSE_Sign
+   rules from Sections 3 and 4.1 of [RFC9052]; the SCITT rules from
+   Figure 3 in Section 6.1 of [RFC9943]; and the certificate rules from
+   Section 2 of [RFC9360].  These rules are unchanged except for
+   comments and formatting.
+
+   ; Repeated from Sections 3 and 4.1 of RFC 9052.
+   COSE_Sign = [
+     Headers,
+     payload : bstr / nil,
+     signatures : [+ COSE_Signature]
+   ]
+
+   COSE_Signature = [
+     Headers,
+     signature : bstr
+   ]
+
+   Headers = (
+     protected : empty_or_serialized_map,
+     unprotected : header_map
+   )
+
+   header_map = {
+     Generic_Headers,
+     * label => values
+   }
+
+   empty_or_serialized_map =
+     bstr .cbor header_map / bstr .size 0
+
+   Generic_Headers = (
+     ? 1 => int / tstr,
+     ? 2 => [+label],
+     ? 3 => tstr / int,
+     ? 4 => bstr,
+     ? ( 5 => bstr //
+         6 => bstr )
+   )
+
+   values = any
+
+   ; Repeated unchanged from Figure 3 of RFC 9943.
+   Receipt = #6.18(COSE_Sign1)
+
+   COSE_Sign1 = [
+     protected   : bstr .cbor Protected_Header,
+     unprotected : Unprotected_Header,
+     payload     : bstr / nil,
+     signature   : bstr
+   ]
+
+   Protected_Header = {
+     &(CWT_Claims: 15) => CWT_Claims
+     ? &(alg: 1) => int
+     ? &(content_type: 3) => tstr / uint
+     ? &(kid: 4) => bstr
+     ? &(x5t: 34) => COSE_CertHash
+     ? &(x5chain: 33) => COSE_X509
+     * label => any
+   }
+
+   CWT_Claims = {
+     &(iss: 1) => tstr
+     &(sub: 2) => tstr
+     * label => any
+   }
+
+   Unprotected_Header = {
+     ? &(x5chain: 33) => COSE_X509
+     ? &(receipts: 394) => [+ bstr .cbor Receipt]
+     * label => any
+   }
+
+   label = int / tstr
+
+   ; Repeated from Section 2 of RFC 9360.
+   COSE_X509 = bstr / [ 2*certs: bstr ]
+   COSE_CertHash = [ hashAlg: (int / tstr), hashValue: bstr ]
+
+Authors' Addresses
+
+   Amaury Chamayou
+   Microsoft
+   United Kingdom
+   Email: amaury.chamayou@microsoft.com
+
+
+   Yogesh Deshpande
+   Arm
+   United Kingdom
+   Email: yogesh.deshpande@arm.com
