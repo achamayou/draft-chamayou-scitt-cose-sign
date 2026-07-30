@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-28T01:23:05.200594+00:00",
+  "timestamp": "2026-07-30T01:17:13.459767+00:00",
   "repo": "achamayou/draft-chamayou-scitt-cose-sign",
   "labels": [
     {
@@ -104,6 +104,35 @@
       "mergeCommit": {
         "oid": "dbf686dbffa9d0d6b9eb926ce69ebcfd226936a3"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOThaufc74HNHG",
+      "title": "Format draft with one sentence per line",
+      "url": "https://github.com/achamayou/draft-chamayou-scitt-cose-sign/pull/3",
+      "state": "OPEN",
+      "author": "copilot-swe-agent",
+      "authorAssociation": "NONE",
+      "assignees": [
+        "achamayou",
+        "Copilot"
+      ],
+      "labels": [],
+      "body": "Reflow the Internet-Draft source so each prose sentence occupies one line.\n\n- **Prose**\n  - Reformat paragraphs, lists, and blockquotes without changing wording.\n- **Structure**\n  - Preserve metadata, Markdown structure, references, and CDDL blocks.",
+      "createdAt": "2026-07-29T17:09:34Z",
+      "updatedAt": "2026-07-29T17:09:58Z",
+      "baseRepository": "achamayou/draft-chamayou-scitt-cose-sign",
+      "baseRefName": "main",
+      "baseRefOid": "3d3ac6781c00cee6cdd8b0a2dd9266ea63a2d643",
+      "headRepository": "achamayou/draft-chamayou-scitt-cose-sign",
+      "headRefName": "copilot/make-document-one-sentence-per-line",
+      "headRefOid": "bf5ab5f7a4043180fa29a3efaaa8597d03524fbb",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
