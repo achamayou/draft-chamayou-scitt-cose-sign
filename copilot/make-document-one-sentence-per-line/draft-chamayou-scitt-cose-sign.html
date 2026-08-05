@@ -25,7 +25,7 @@ Receipts remain  COSE_Sign1  structures.
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.10.1
+    platformdirs 4.11.0
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
@@ -1220,7 +1220,7 @@ Receipts remain <code>COSE_Sign1</code> structures.<a href="#section-abstract-1"
 <p id="section-1-1">Concise Binary Object Representation (CBOR) Object Signing and Encryption (COSE) defines <code>COSE_Sign</code>, a structure that supports multiple signatures over the same payload.
 This document makes the limited changes needed for multiple Issuers to sign one Statement in the Supply Chain Integrity, Transparency, and Trust (SCITT) architecture defined by <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.
 Each signature carries its own SCITT protected header.
-The <code>COSE_Sign</code> body protected header is empty.
+The <code>COSE_Sign</code> body protected header <span class="bcp14">MAY</span> carry parameters common to all signatures, but it <span class="bcp14">MUST NOT</span> carry CWT Claims.
 All other requirements of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> continue to apply.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <div id="motivation">
 <section id="section-1.1">
@@ -1319,7 +1319,7 @@ Joint_Sign =
   Joint_Sign_Structure .within COSE_Sign
 
 Joint_Sign_Structure = [
-  body_protected: bstr .size 0,
+  body_protected: Body_Protected,
   body_unprotected:
     Empty_Body_Unprotected_Header /
     Receipts_Body_Unprotected_Header,
@@ -1331,7 +1331,7 @@ Registered_Joint_Sign =
   Registered_Joint_Structure .within Joint_Sign
 
 Registered_Joint_Structure = [
-  body_protected: bstr .size 0,
+  body_protected: Body_Protected,
   body_unprotected: Empty_Body_Unprotected_Header,
   payload: bstr / nil,
   signatures: [2* Registered_Joint_Signature]
@@ -1341,7 +1341,7 @@ Joint_Transparent_Sign =
   Joint_Transparent_Structure .within Joint_Sign
 
 Joint_Transparent_Structure = [
-  body_protected: bstr .size 0,
+  body_protected: Body_Protected,
   body_unprotected: Receipts_Body_Unprotected_Header,
   payload: bstr / nil,
   signatures: [2* Registered_Joint_Signature]
@@ -1366,6 +1366,16 @@ Registered_Joint_Signature_Structure = [
   signature: bstr
 ]
 
+Body_Protected =
+  bstr .size 0 / bstr .cbor Body_Protected_Header
+
+; As Protected_Header, but the CWT_Claims header parameter
+; (label 15) MUST NOT be present.
+Body_Protected_Header = {
+  ? &amp;(content_type: 3) =&gt; tstr / uint
+  * ((int .ne 15) / tstr) =&gt; any
+}
+
 Signature_Unprotected_Header = {
   * ((int .ne 394) / tstr) =&gt; any
 }
@@ -1389,12 +1399,17 @@ Receipts_Body_Unprotected_Header = {
         <h3 id="name-protected-headers-and-issue">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-protected-headers-and-issue" class="section-name selfRef">Protected Headers and Issuer Identity</a>
         </h3>
-<p id="section-2.3-1">The <code>COSE_Sign</code> body protected header <span class="bcp14">MUST</span> be a zero-length byte string.
-Consequently, all Issuer- and Subject-specific metadata is carried by the individual signatures.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.3-2">Each <code>COSE_Signature</code> protected header <span class="bcp14">MUST</span> conform to <code>Protected_Header</code> and <code>CWT_Claims</code> from Figure 3 in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> and contain its own <code>iss</code> and <code>sub</code> Claims in the CBOR Web Token (CWT) Claims header parameter defined in <span><a href="https://rfc-editor.org/rfc/rfc9597#section-2" class="relref">Section 2</a> of [<a href="#RFC9597" class="cite xref">RFC9597</a>]</span>.
+<p id="section-2.3-1">The <code>COSE_Sign</code> body protected header <span class="bcp14">MAY</span> be a zero-length byte string or a serialized map conforming to <code>Body_Protected_Header</code>.
+It carries parameters that apply to the joint Statement as a whole.
+It <span class="bcp14">MUST NOT</span> contain the CWT Claims header parameter (label 15); Issuer and Subject identity is scoped to individual signatures.
+A verifier <span class="bcp14">MUST</span> reject a joint Statement whose body protected header contains that parameter.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">As required by <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>, each <code>COSE_Signature</code> protected header <span class="bcp14">MUST</span> conform to <code>Protected_Header</code> and <code>CWT_Claims</code> from Figure 3 in that section, and therefore <span class="bcp14">MUST</span> contain the CBOR Web Token (CWT) Claims header parameter defined in <span><a href="https://rfc-editor.org/rfc/rfc9597#section-2" class="relref">Section 2</a> of [<a href="#RFC9597" class="cite xref">RFC9597</a>]</span> with its own <code>iss</code> and <code>sub</code> Claims.
 Algorithm, key, certificate, Issuer, and Subject metadata is specific to that signature.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
 <p id="section-2.3-3">The <code>content_type</code> parameter describes the common payload.
-It <span class="bcp14">MUST</span> either be absent from every signature or have the same value in every signature.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+It <span class="bcp14">MAY</span> appear in the body protected header, in the signature protected headers, or in both.
+Where it appears in signature protected headers, it <span class="bcp14">MUST</span> either be absent from every signature or have the same value in every signature.
+Where it appears in both the body protected header and a signature protected header, the values <span class="bcp14">MUST</span> be equal.
+A <code>content_type</code> in the body protected header applies to the joint Statement as a whole and need not be repeated in the signatures.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
 <p id="section-2.3-4">A joint Statement <span class="bcp14">MUST</span> contain signatures from at least two distinct Issuers.
 The Registration Policy <span class="bcp14">MUST</span> define how <code>iss</code> values identify Issuers and how aliases are handled.
 Unequal <code>iss</code> strings alone do not establish distinct Issuer identities.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
@@ -1434,7 +1449,7 @@ Its existing Receipts are removed during Registration.<a href="#section-2.4-5" c
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-3-1">The security considerations in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-9" class="relref">Section 9</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>, <span><a href="https://rfc-editor.org/rfc/rfc9052#section-12" class="relref">Section 12</a> of [<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>, and <span><a href="https://rfc-editor.org/rfc/rfc9942#section-7" class="relref">Section 7</a> of [<a href="#RFC9942" class="cite xref">RFC9942</a>]</span> apply.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Each <code>COSE_Signature</code> covers the common payload, the empty body protected header, its own protected header, and any externally supplied authenticated data used with the signature.
+<p id="section-3-2">Each <code>COSE_Signature</code> covers the common payload, the body protected header, its own protected header, and any externally supplied authenticated data used with the signature.
 It does not cover the body or signature unprotected headers or other entries in the signatures array.
 A holder can therefore reorder or remove signatures, add independently valid signatures, or modify unprotected headers without invalidating the remaining signatures.
 In particular, this format does not prove that an Issuer knew of or endorsed another Issuer.<a href="#section-3-2" class="pilcrow">¶</a></p>
