@@ -8,13 +8,10 @@
 <meta content="Amaury Chamayou" name="author">
 <meta content="Yogesh Deshpande" name="author">
 <meta content="
-       RFC 9943 defines Supply Chain Integrity, Transparency, and Trust (SCITT)
-Signed Statements and Transparent Statements using  COSE_Sign1 , the
-single-signer structure defined by Concise Binary Object Representation (CBOR)
-Object Signing and Encryption (COSE).  This document updates RFC 9943 to permit
-Statements signed by multiple distinct Issuers to use  COSE_Sign .  Each
-signature identifies its own Issuer and Subject.  Receipts remain  COSE_Sign1 
-structures. 
+       RFC 9943 defines Supply Chain Integrity, Transparency, and Trust (SCITT) Signed Statements and Transparent Statements using  COSE_Sign1 , the single-signer structure defined by Concise Binary Object Representation (CBOR) Object Signing and Encryption (COSE).
+This document updates RFC 9943 to permit Statements signed by multiple distinct Issuers to use  COSE_Sign .
+Each signature identifies its own Issuer and Subject.
+Receipts remain  COSE_Sign1  structures. 
     " name="description">
 <meta content="xml2rfc 3.34.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
@@ -1090,13 +1087,10 @@ svg {
 <h1 id="title">Multiple-Issuer Statements for the Supply Chain Integrity, Transparency, and Trust (SCITT) Architecture</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">RFC 9943 defines Supply Chain Integrity, Transparency, and Trust (SCITT)
-Signed Statements and Transparent Statements using <code>COSE_Sign1</code>, the
-single-signer structure defined by Concise Binary Object Representation (CBOR)
-Object Signing and Encryption (COSE).  This document updates RFC 9943 to permit
-Statements signed by multiple distinct Issuers to use <code>COSE_Sign</code>.  Each
-signature identifies its own Issuer and Subject.  Receipts remain <code>COSE_Sign1</code>
-structures.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">RFC 9943 defines Supply Chain Integrity, Transparency, and Trust (SCITT) Signed Statements and Transparent Statements using <code>COSE_Sign1</code>, the single-signer structure defined by Concise Binary Object Representation (CBOR) Object Signing and Encryption (COSE).
+This document updates RFC 9943 to permit Statements signed by multiple distinct Issuers to use <code>COSE_Sign</code>.
+Each signature identifies its own Issuer and Subject.
+Receipts remain <code>COSE_Sign1</code> structures.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-discussion-venues">
@@ -1223,27 +1217,21 @@ structures.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Concise Binary Object Representation (CBOR) Object Signing and Encryption
-(COSE) defines <code>COSE_Sign</code>, a structure that supports multiple signatures over
-the same payload.  This document makes the limited changes needed for multiple
-Issuers to sign one Statement in the Supply Chain Integrity, Transparency, and
-Trust (SCITT) architecture defined by <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.  Each signature carries its
-own SCITT protected header.  The <code>COSE_Sign</code> body protected header <span class="bcp14">MAY</span> carry
-parameters common to all signatures, but it <span class="bcp14">MUST NOT</span> carry CWT Claims.
+<p id="section-1-1">Concise Binary Object Representation (CBOR) Object Signing and Encryption (COSE) defines <code>COSE_Sign</code>, a structure that supports multiple signatures over the same payload.
+This document makes the limited changes needed for multiple Issuers to sign one Statement in the Supply Chain Integrity, Transparency, and Trust (SCITT) architecture defined by <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.
+Each signature carries its own SCITT protected header.
+The <code>COSE_Sign</code> body protected header <span class="bcp14">MAY</span> carry parameters common to all signatures, but it <span class="bcp14">MUST NOT</span> carry CWT Claims.
 All other requirements of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> continue to apply.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <div id="motivation">
 <section id="section-1.1">
         <h3 id="name-motivation">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-motivation" class="section-name selfRef">Motivation</a>
         </h3>
-<p id="section-1.1-1">Some Artifacts are accepted only after multiple authorities sign the same
-Statement.  For example, firmware might require signatures from a component
-manufacturer, a device manufacturer, and an enterprise deployment authority.
-Each Issuer can use its own key, algorithm, certificate chain, Subject, and
-other protected metadata.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
-<p id="section-1.1-2">Using separate <code>COSE_Sign1</code> objects produces independent Signed Statements that
-are registered separately.  <code>COSE_Sign</code> packages Issuer-specific signatures
-over one common payload in one registered object.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1-1">Some Artifacts are accepted only after multiple authorities sign the same Statement.
+For example, firmware might require signatures from a component manufacturer, a device manufacturer, and an enterprise deployment authority.
+Each Issuer can use its own key, algorithm, certificate chain, Subject, and other protected metadata.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">Using separate <code>COSE_Sign1</code> objects produces independent Signed Statements that are registered separately.
+<code>COSE_Sign</code> packages Issuer-specific signatures over one common payload in one registered object.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="terminology">
@@ -1251,17 +1239,11 @@ over one common payload in one registered object.<a href="#section-1.1-2" class=
         <h3 id="name-terminology">
 <a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
         </h3>
-<p id="section-1.2-1">This document uses the terms "Artifact", "Issuer", "Receipt", "Registration",
-"Registration Policy", "Signed Statement", "Statement", "Statement Sequence",
-"Subject", "Transparency Service", and "Transparent Statement" as defined in
-<span><a href="https://rfc-editor.org/rfc/rfc9943#section-3" class="relref">Section 3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.  The terms <code>COSE_Sign</code>, <code>COSE_Sign1</code>, and
-<code>COSE_Signature</code>, and the terms "protected header", "unprotected header", and
-"payload", are used as defined in Sections <a href="https://rfc-editor.org/rfc/rfc9052#section-3" class="relref">3</a> and <a href="https://rfc-editor.org/rfc/rfc9052#section-4" class="relref">4</a> of <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
-<p id="section-1.2-2">This document uses "joint Statement" for a Signed Statement represented by a
-tagged <code>COSE_Sign</code> and constrained as specified in this document.  Each Issuer
-signs the common payload and its own protected headers, but does not sign or
-endorse the other signatures.  A Receipt makes the exact signature set
-accepted at Registration transparent.<a href="#section-1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.2-1">This document uses the terms "Artifact", "Issuer", "Receipt", "Registration", "Registration Policy", "Signed Statement", "Statement", "Statement Sequence", "Subject", "Transparency Service", and "Transparent Statement" as defined in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-3" class="relref">Section 3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.
+The terms <code>COSE_Sign</code>, <code>COSE_Sign1</code>, and <code>COSE_Signature</code>, and the terms "protected header", "unprotected header", and "payload", are used as defined in Sections <a href="https://rfc-editor.org/rfc/rfc9052#section-3" class="relref">3</a> and <a href="https://rfc-editor.org/rfc/rfc9052#section-4" class="relref">4</a> of <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.2-2">This document uses "joint Statement" for a Signed Statement represented by a tagged <code>COSE_Sign</code> and constrained as specified in this document.
+Each Issuer signs the common payload and its own protected headers, but does not sign or endorse the other signatures.
+A Receipt makes the exact signature set accepted at Registration transparent.<a href="#section-1.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="requirements-notation">
@@ -1287,15 +1269,12 @@ appear in all capitals, as shown here.<a href="#section-1.3-1" class="pilcrow">�
         <h3 id="name-relationship-to-rfc-9943">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-relationship-to-rfc-9943" class="section-name selfRef">Relationship to RFC 9943</a>
         </h3>
-<p id="section-2.1-1">This document extends the <code>Signed_Statement</code> and <code>Transparent_Statement</code>
-definitions in Sections <a href="https://rfc-editor.org/rfc/rfc9943#section-6" class="relref">6</a> and <a href="https://rfc-editor.org/rfc/rfc9943#section-7" class="relref">7</a> of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.  A joint Statement uses tagged
-<code>COSE_Sign</code> (CBOR tag 98); the existing single-issuer form continues to use
-tagged <code>COSE_Sign1</code> (CBOR tag 18).  Untagged forms are not permitted.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1-2"><code>Joint_Sign</code> constrains <code>COSE_Sign</code>; it does not define a new COSE message
-type.  The signing and verification procedures in
-<span><a href="https://rfc-editor.org/rfc/rfc9052#section-4.4" class="relref">Section 4.4</a> of [<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> are unchanged.  An implementation of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>
-does not necessarily support joint Statements, even though both forms use the
-same media type.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.1-1">This document extends the <code>Signed_Statement</code> and <code>Transparent_Statement</code> definitions in Sections <a href="https://rfc-editor.org/rfc/rfc9943#section-6" class="relref">6</a> and <a href="https://rfc-editor.org/rfc/rfc9943#section-7" class="relref">7</a> of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.
+A joint Statement uses tagged <code>COSE_Sign</code> (CBOR tag 98); the existing single-issuer form continues to use tagged <code>COSE_Sign1</code> (CBOR tag 18).
+Untagged forms are not permitted.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-2"><code>Joint_Sign</code> constrains <code>COSE_Sign</code>; it does not define a new COSE message type.
+The signing and verification procedures in <span><a href="https://rfc-editor.org/rfc/rfc9052#section-4.4" class="relref">Section 4.4</a> of [<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> are unchanged.
+An implementation of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> does not necessarily support joint Statements, even though both forms use the same media type.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="data-model">
@@ -1303,9 +1282,8 @@ same media type.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
         <h3 id="name-data-model">
 <a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-data-model" class="section-name selfRef">Data Model</a>
         </h3>
-<p id="section-2.2-1">The following Concise Data Definition Language (CDDL) <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> defines the
-single-issuer and joint Statement forms.  <a href="#cddl-dependencies" class="auto internal xref">Appendix A</a> repeats the
-definitions imported from <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>, <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>, and <span>[<a href="#RFC9360" class="cite xref">RFC9360</a>]</span>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-1">The following Concise Data Definition Language (CDDL) <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> defines the single-issuer and joint Statement forms.
+<a href="#cddl-dependencies" class="auto internal xref">Appendix A</a> repeats the definitions imported from <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>, <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>, and <span>[<a href="#RFC9360" class="cite xref">RFC9360</a>]</span>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 <span id="name-multiple-issuer-scitt-state"></span><div id="statement-cddl">
 <figure id="figure-1">
           <div class="breakable lang-cddl sourcecode" id="section-2.2-2.1">
@@ -1413,9 +1391,7 @@ Receipts_Body_Unprotected_Header = {
 <a href="#name-multiple-issuer-scitt-state" class="selfRef">Multiple-issuer SCITT statements</a>
           </figcaption></figure>
 </div>
-<p id="section-2.2-3"><code>Single_Issuer_Transparent_Sign1</code> restates, without changing, the requirement
-in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-7" class="relref">Section 7</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> that a single-issuer Transparent Statement
-contain only <code>receipts</code> in its unprotected header.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.2-3"><code>Single_Issuer_Transparent_Sign1</code> restates, without changing, the requirement in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-7" class="relref">Section 7</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> that a single-issuer Transparent Statement contain only <code>receipts</code> in its unprotected header.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="protected-headers-and-issuer-identity">
@@ -1423,29 +1399,20 @@ contain only <code>receipts</code> in its unprotected header.<a href="#section-2
         <h3 id="name-protected-headers-and-issue">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-protected-headers-and-issue" class="section-name selfRef">Protected Headers and Issuer Identity</a>
         </h3>
-<p id="section-2.3-1">The <code>COSE_Sign</code> body protected header <span class="bcp14">MAY</span> be a zero-length byte string or a
-serialized map conforming to <code>Body_Protected_Header</code>.  It carries parameters
-that apply to the joint Statement as a whole.  It <span class="bcp14">MUST NOT</span> contain the CWT
-Claims header parameter (label 15); Issuer and Subject identity is scoped to
-individual signatures.  A verifier <span class="bcp14">MUST</span> reject a joint Statement whose body
-protected header contains that parameter.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.3-2">As required by <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>, each <code>COSE_Signature</code> protected
-header <span class="bcp14">MUST</span> conform to <code>Protected_Header</code> and <code>CWT_Claims</code> from Figure 3 in
-that section, and therefore <span class="bcp14">MUST</span> contain the CBOR Web Token (CWT) Claims
-header parameter defined in <span><a href="https://rfc-editor.org/rfc/rfc9597#section-2" class="relref">Section 2</a> of [<a href="#RFC9597" class="cite xref">RFC9597</a>]</span> with its own <code>iss</code> and
-<code>sub</code> Claims.  Algorithm, key, certificate, Issuer, and Subject metadata is
-specific to that signature.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
-<p id="section-2.3-3">The <code>content_type</code> parameter describes the common payload.  It <span class="bcp14">MAY</span> appear in
-the body protected header, in the signature protected headers, or in both.
-Where it appears in signature protected headers, it <span class="bcp14">MUST</span> either be absent from
-every signature or have the same value in every signature.  Where it appears
-in both the body protected header and a signature protected header, the values
-<span class="bcp14">MUST</span> be equal.  A <code>content_type</code> in the body protected header applies to the
-joint Statement as a whole and need not be repeated in the signatures.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">The <code>COSE_Sign</code> body protected header <span class="bcp14">MAY</span> be a zero-length byte string or a serialized map conforming to <code>Body_Protected_Header</code>.
+It carries parameters that apply to the joint Statement as a whole.
+It <span class="bcp14">MUST NOT</span> contain the CWT Claims header parameter (label 15); Issuer and Subject identity is scoped to individual signatures.
+A verifier <span class="bcp14">MUST</span> reject a joint Statement whose body protected header contains that parameter.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">As required by <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>, each <code>COSE_Signature</code> protected header <span class="bcp14">MUST</span> conform to <code>Protected_Header</code> and <code>CWT_Claims</code> from Figure 3 in that section, and therefore <span class="bcp14">MUST</span> contain the CBOR Web Token (CWT) Claims header parameter defined in <span><a href="https://rfc-editor.org/rfc/rfc9597#section-2" class="relref">Section 2</a> of [<a href="#RFC9597" class="cite xref">RFC9597</a>]</span> with its own <code>iss</code> and <code>sub</code> Claims.
+Algorithm, key, certificate, Issuer, and Subject metadata is specific to that signature.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">The <code>content_type</code> parameter describes the common payload.
+It <span class="bcp14">MAY</span> appear in the body protected header, in the signature protected headers, or in both.
+Where it appears in signature protected headers, it <span class="bcp14">MUST</span> either be absent from every signature or have the same value in every signature.
+Where it appears in both the body protected header and a signature protected header, the values <span class="bcp14">MUST</span> be equal.
+A <code>content_type</code> in the body protected header applies to the joint Statement as a whole and need not be repeated in the signatures.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
 <p id="section-2.3-4">A joint Statement <span class="bcp14">MUST</span> contain signatures from at least two distinct Issuers.
-The Registration Policy <span class="bcp14">MUST</span> define how <code>iss</code> values identify Issuers and how
-aliases are handled.  Unequal <code>iss</code> strings alone do not establish distinct
-Issuer identities.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+The Registration Policy <span class="bcp14">MUST</span> define how <code>iss</code> values identify Issuers and how aliases are handled.
+Unequal <code>iss</code> strings alone do not establish distinct Issuer identities.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="registration-and-transparency">
@@ -1453,31 +1420,24 @@ Issuer identities.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
         <h3 id="name-registration-and-transparen">
 <a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-registration-and-transparen" class="section-name selfRef">Registration and Transparency</a>
         </h3>
-<p id="section-2.4-1">A <code>Submitted_Joint_Statement</code> may have an empty body unprotected header or one
-containing only <code>receipts</code>.  Signature unprotected headers <span class="bcp14">MAY</span> contain values
-used for verification or Registration Policy evaluation, but <span class="bcp14">MUST NOT</span> contain
-<code>receipts</code>.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-1">A <code>Submitted_Joint_Statement</code> may have an empty body unprotected header or one containing only <code>receipts</code>.
+Signature unprotected headers <span class="bcp14">MAY</span> contain values used for verification or Registration Policy evaluation, but <span class="bcp14">MUST NOT</span> contain <code>receipts</code>.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 <p id="section-2.4-2">During Registration, the Transparency Service <span class="bcp14">MUST</span>:<a href="#section-2.4-2" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-2.4-3">
 <li id="section-2.4-3.1">
-            <p id="section-2.4-3.1.1">Verify every signature according to <span><a href="https://rfc-editor.org/rfc/rfc9052#section-4.4" class="relref">Section 4.4</a> of [<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> using a
-key authorized for that signature's <code>iss</code> value.<a href="#section-2.4-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-2.4-3.1.1">Verify every signature according to <span><a href="https://rfc-editor.org/rfc/rfc9052#section-4.4" class="relref">Section 4.4</a> of [<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> using a key authorized for that signature's <code>iss</code> value.<a href="#section-2.4-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-2.4-3.2">
-            <p id="section-2.4-3.2.1">Apply the required-header and Registration Policy checks from
-<span><a href="https://rfc-editor.org/rfc/rfc9943#section-6.3" class="relref">Section 6.3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> to each signature's protected header.<a href="#section-2.4-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-2.4-3.2.1">Apply the required-header and Registration Policy checks from <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6.3" class="relref">Section 6.3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> to each signature's protected header.<a href="#section-2.4-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-2.4-3.3">
-            <p id="section-2.4-3.3.1">Remove all body and signature unprotected values before adding the
-Statement to a Statement Sequence.<a href="#section-2.4-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-2.4-3.3.1">Remove all body and signature unprotected values before adding the Statement to a Statement Sequence.<a href="#section-2.4-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-2.4-4">The resulting <code>Registered_Joint_Statement</code> has empty body and signature
-unprotected headers.  Adding one or more Receipts to its body unprotected
-header produces a <code>Joint_Transparent_Statement</code>; its signature unprotected
-headers remain empty.<a href="#section-2.4-4" class="pilcrow">¶</a></p>
-<p id="section-2.4-5">A <code>Joint_Transparent_Statement</code> may subsequently be submitted to another
-Transparency Service.  Its existing Receipts are removed during Registration.<a href="#section-2.4-5" class="pilcrow">¶</a></p>
+<p id="section-2.4-4">The resulting <code>Registered_Joint_Statement</code> has empty body and signature unprotected headers.
+Adding one or more Receipts to its body unprotected header produces a <code>Joint_Transparent_Statement</code>; its signature unprotected headers remain empty.<a href="#section-2.4-4" class="pilcrow">¶</a></p>
+<p id="section-2.4-5">A <code>Joint_Transparent_Statement</code> may subsequently be submitted to another Transparency Service.
+Its existing Receipts are removed during Registration.<a href="#section-2.4-5" class="pilcrow">¶</a></p>
 <p id="section-2.4-6"><code>COSE_Sign1</code> verification and its body <code>iss</code> and <code>sub</code> Claims are unchanged.<a href="#section-2.4-6" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1488,27 +1448,16 @@ Transparency Service.  Its existing Receipts are removed during Registration.<a 
       <h2 id="name-security-considerations">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-3-1">The security considerations in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-9" class="relref">Section 9</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>,
-<span><a href="https://rfc-editor.org/rfc/rfc9052#section-12" class="relref">Section 12</a> of [<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>, and <span><a href="https://rfc-editor.org/rfc/rfc9942#section-7" class="relref">Section 7</a> of [<a href="#RFC9942" class="cite xref">RFC9942</a>]</span> apply.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Each <code>COSE_Signature</code> covers the common payload, the body protected
-header, its own protected header, and any externally supplied authenticated
-data used with the signature.  It does not cover the body or signature
-unprotected headers or other entries in the signatures array.  A holder can
-therefore reorder or remove signatures, add independently valid signatures,
-or modify unprotected headers without invalidating the remaining signatures.
-In particular, this format does not prove that an Issuer knew of or endorsed
-another Issuer.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">A Transparency Service <span class="bcp14">MUST</span> treat body and signature unprotected header values
-as unauthenticated.  It <span class="bcp14">MAY</span> use them to locate signature verification material
-or as Registration Policy input, but it <span class="bcp14">MUST NOT</span> treat them as assertions by
-an Issuer unless another mechanism authenticates them.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">When determining whether a joint Statement has signatures from at least two
-distinct Issuers, a verifier <span class="bcp14">MUST</span> count distinct, successfully verified, and
-authorized Issuers after applying its identity and alias rules, rather than
-counting signatures, keys, or merely unequal <code>iss</code> strings.  One authority can
-control multiple identifiers or keys.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">A Receipt binds the complete Statement registered by the Transparency Service,
-including its signatures array.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-1">The security considerations in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-9" class="relref">Section 9</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>, <span><a href="https://rfc-editor.org/rfc/rfc9052#section-12" class="relref">Section 12</a> of [<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>, and <span><a href="https://rfc-editor.org/rfc/rfc9942#section-7" class="relref">Section 7</a> of [<a href="#RFC9942" class="cite xref">RFC9942</a>]</span> apply.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Each <code>COSE_Signature</code> covers the common payload, the body protected header, its own protected header, and any externally supplied authenticated data used with the signature.
+It does not cover the body or signature unprotected headers or other entries in the signatures array.
+A holder can therefore reorder or remove signatures, add independently valid signatures, or modify unprotected headers without invalidating the remaining signatures.
+In particular, this format does not prove that an Issuer knew of or endorsed another Issuer.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">A Transparency Service <span class="bcp14">MUST</span> treat body and signature unprotected header values as unauthenticated.
+It <span class="bcp14">MAY</span> use them to locate signature verification material or as Registration Policy input, but it <span class="bcp14">MUST NOT</span> treat them as assertions by an Issuer unless another mechanism authenticates them.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">When determining whether a joint Statement has signatures from at least two distinct Issuers, a verifier <span class="bcp14">MUST</span> count distinct, successfully verified, and authorized Issuers after applying its identity and alias rules, rather than counting signatures, keys, or merely unequal <code>iss</code> strings.
+One authority can control multiple identifiers or keys.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">A Receipt binds the complete Statement registered by the Transparency Service, including its signatures array.<a href="#section-3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="privacy-considerations">
@@ -1516,11 +1465,9 @@ including its signatures array.<a href="#section-3-5" class="pilcrow">¶</a></p>
       <h2 id="name-privacy-considerations">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<p id="section-4-1">The privacy considerations in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-8" class="relref">Section 8</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> apply.  A
-multiple-issuer Statement exposes every Issuer and Subject identifier in
-integrity-protected but unencrypted headers.  Combining these identifiers in
-one Statement can reveal relationships between Issuers and enable correlation
-across identifier namespaces.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">The privacy considerations in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-8" class="relref">Section 8</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> apply.
+A multiple-issuer Statement exposes every Issuer and Subject identifier in integrity-protected but unencrypted headers.
+Combining these identifiers in one Statement can reveal relationships between Issuers and enable correlation across identifier namespaces.<a href="#section-4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
@@ -1533,8 +1480,7 @@ across identifier namespaces.<a href="#section-4-1" class="pilcrow">¶</a></p>
         <h3 id="name-media-types-registry">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-media-types-registry" class="section-name selfRef">Media Types Registry</a>
         </h3>
-<p id="section-5.1-1">In the "Media Types" registry, IANA is requested to update the
-<code>application/scitt-statement+cose</code> registration as follows:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">In the "Media Types" registry, IANA is requested to update the <code>application/scitt-statement+cose</code> registration as follows:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.1-2.1">
             <p id="section-5.1-2.1.1">Add this document to the "Published specification" field.<a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
@@ -1551,10 +1497,8 @@ across identifier namespaces.<a href="#section-4-1" class="pilcrow">¶</a></p>
             <p id="section-5.1-2.3.1">Replace the "Interoperability considerations" field with:<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-5.1-2.3.2.1">
-                <p id="section-5.1-2.3.2.1.1">The mandatory CBOR tags distinguish the <code>COSE_Sign1</code> and <code>COSE_Sign</code>
-forms.  Implementations that support only the <code>COSE_Sign1</code> form specified
-by Sections <a href="https://rfc-editor.org/rfc/rfc9943#section-6" class="relref">6</a> and <a href="https://rfc-editor.org/rfc/rfc9943#section-7" class="relref">7</a> of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> do not necessarily support the
-<code>COSE_Sign</code> form specified by this document.<a href="#section-5.1-2.3.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-5.1-2.3.2.1.1">The mandatory CBOR tags distinguish the <code>COSE_Sign1</code> and <code>COSE_Sign</code> forms.
+Implementations that support only the <code>COSE_Sign1</code> form specified by Sections <a href="https://rfc-editor.org/rfc/rfc9943#section-6" class="relref">6</a> and <a href="https://rfc-editor.org/rfc/rfc9943#section-7" class="relref">7</a> of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> do not necessarily support the <code>COSE_Sign</code> form specified by this document.<a href="#section-5.1-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -1562,8 +1506,7 @@ by Sections <a href="https://rfc-editor.org/rfc/rfc9943#section-6" class="relref
             <p id="section-5.1-2.4.1">Replace the "Applications that use this media type" field with:<a href="#section-5.1-2.4.1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-5.1-2.4.2.1">
-                <p id="section-5.1-2.4.2.1.1">Used to provide an identifiable and non-repudiable Statement about an
-Artifact signed by one or more Issuers.<a href="#section-5.1-2.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-5.1-2.4.2.1.1">Used to provide an identifiable and non-repudiable Statement about an Artifact signed by one or more Issuers.<a href="#section-5.1-2.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -1575,9 +1518,7 @@ Artifact signed by one or more Issuers.<a href="#section-5.1-2.4.2.1.1" class="p
         <h3 id="name-coap-content-formats-regist">
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-coap-content-formats-regist" class="section-name selfRef">CoAP Content-Formats Registry</a>
         </h3>
-<p id="section-5.2-1">In the "CoAP Content-Formats" registry, IANA is requested to list this
-document as an additional reference for ID 277
-(<code>application/scitt-statement+cose</code>).<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-1">In the "CoAP Content-Formats" registry, IANA is requested to list this document as an additional reference for ID 277 (<code>application/scitt-statement+cose</code>).<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">No other IANA actions are requested.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1629,11 +1570,8 @@ document as an additional reference for ID 277
       <h2 id="name-repeated-cddl-definitions">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-repeated-cddl-definitions" class="section-name selfRef">Repeated CDDL Definitions</a>
       </h2>
-<p id="appendix-A-1">For completeness, this appendix repeats the structural <code>COSE_Sign</code> rules from
-Sections <a href="https://rfc-editor.org/rfc/rfc9052#section-3" class="relref">3</a> and <a href="https://rfc-editor.org/rfc/rfc9052#section-4.1" class="relref">4.1</a> of <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>; the SCITT rules from Figure 3 in
-<span><a href="https://rfc-editor.org/rfc/rfc9943#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>; and the certificate rules from
-<span><a href="https://rfc-editor.org/rfc/rfc9360#section-2" class="relref">Section 2</a> of [<a href="#RFC9360" class="cite xref">RFC9360</a>]</span>.  These rules are unchanged except for comments and
-formatting.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">For completeness, this appendix repeats the structural <code>COSE_Sign</code> rules from Sections <a href="https://rfc-editor.org/rfc/rfc9052#section-3" class="relref">3</a> and <a href="https://rfc-editor.org/rfc/rfc9052#section-4.1" class="relref">4.1</a> of <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>; the SCITT rules from Figure 3 in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>; and the certificate rules from <span><a href="https://rfc-editor.org/rfc/rfc9360#section-2" class="relref">Section 2</a> of [<a href="#RFC9360" class="cite xref">RFC9360</a>]</span>.
+These rules are unchanged except for comments and formatting.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <div class="breakable lang-cddl sourcecode" id="appendix-A-2">
 <pre>
 ; Repeated from Sections 3 and 4.1 of RFC 9052.
