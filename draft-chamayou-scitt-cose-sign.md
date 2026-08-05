@@ -239,9 +239,12 @@ header parameter defined in {{Section 2 of RFC9597}} with its own `iss` and
 specific to that signature.
 
 The `content_type` parameter describes the common payload.  It MAY appear in
-the body protected header.  It MUST either be absent from every signature or
-have the same value in every signature, and, when present in both a signature
-and the body protected header, the values MUST be equal.
+the body protected header, in the signature protected headers, or in both.
+Where it appears in signature protected headers, it MUST either be absent from
+every signature or have the same value in every signature.  Where it appears
+in both the body protected header and a signature protected header, the values
+MUST be equal.  A `content_type` in the body protected header applies to the
+joint Statement as a whole and need not be repeated in the signatures.
 
 A joint Statement MUST contain signatures from at least two distinct Issuers.
 The Registration Policy MUST define how `iss` values identify Issuers and how
