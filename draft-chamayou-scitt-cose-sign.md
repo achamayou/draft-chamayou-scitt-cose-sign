@@ -52,7 +52,7 @@ Receipts remain `COSE_Sign1` structures.
 Concise Binary Object Representation (CBOR) Object Signing and Encryption (COSE) defines `COSE_Sign`, a structure that supports multiple signatures over the same payload.
 This document makes the limited changes needed for multiple Issuers to sign one Statement in the Supply Chain Integrity, Transparency, and Trust (SCITT) architecture defined by {{RFC9943}}.
 Each signature carries its own SCITT protected header.
-The `COSE_Sign` body protected header is empty.
+The `COSE_Sign` body protected header MAY carry parameters common to all signatures, but it MUST NOT carry CWT Claims.
 All other requirements of {{RFC9943}} continue to apply.
 
 ## Motivation
@@ -126,7 +126,7 @@ Joint_Sign =
   Joint_Sign_Structure .within COSE_Sign
 
 Joint_Sign_Structure = [
-  body_protected: bstr .size 0,
+  body_protected: Body_Protected,
   body_unprotected:
     Empty_Body_Unprotected_Header /
     Receipts_Body_Unprotected_Header,
@@ -138,7 +138,7 @@ Registered_Joint_Sign =
   Registered_Joint_Structure .within Joint_Sign
 
 Registered_Joint_Structure = [
-  body_protected: bstr .size 0,
+  body_protected: Body_Protected,
   body_unprotected: Empty_Body_Unprotected_Header,
   payload: bstr / nil,
   signatures: [2* Registered_Joint_Signature]
@@ -148,7 +148,7 @@ Joint_Transparent_Sign =
   Joint_Transparent_Structure .within Joint_Sign
 
 Joint_Transparent_Structure = [
-  body_protected: bstr .size 0,
+  body_protected: Body_Protected,
   body_unprotected: Receipts_Body_Unprotected_Header,
   payload: bstr / nil,
   signatures: [2* Registered_Joint_Signature]
@@ -173,6 +173,16 @@ Registered_Joint_Signature_Structure = [
   signature: bstr
 ]
 
+Body_Protected =
+  bstr .size 0 / bstr .cbor Body_Protected_Header
+
+; As Protected_Header, but the CWT_Claims header parameter
+; (label 15) MUST NOT be present.
+Body_Protected_Header = {
+  ? &(content_type: 3) => tstr / uint
+  * ((int .ne 15) / tstr) => any
+}
+
 Signature_Unprotected_Header = {
   * ((int .ne 394) / tstr) => any
 }
@@ -189,14 +199,19 @@ Receipts_Body_Unprotected_Header = {
 
 ## Protected Headers and Issuer Identity
 
-The `COSE_Sign` body protected header MUST be a zero-length byte string.
-Consequently, all Issuer- and Subject-specific metadata is carried by the individual signatures.
+The `COSE_Sign` body protected header MAY be a zero-length byte string or a serialized map conforming to `Body_Protected_Header`.
+It carries parameters that apply to the joint Statement as a whole.
+It MUST NOT contain the CWT Claims header parameter (label 15); Issuer and Subject identity is scoped to individual signatures.
+A verifier MUST reject a joint Statement whose body protected header contains that parameter.
 
-Each `COSE_Signature` protected header MUST conform to `Protected_Header` and `CWT_Claims` from Figure 3 in {{Section 6.1 of RFC9943}} and contain its own `iss` and `sub` Claims in the CBOR Web Token (CWT) Claims header parameter defined in {{Section 2 of RFC9597}}.
+As required by {{Section 6.1 of RFC9943}}, each `COSE_Signature` protected header MUST conform to `Protected_Header` and `CWT_Claims` from Figure 3 in that section, and therefore MUST contain the CBOR Web Token (CWT) Claims header parameter defined in {{Section 2 of RFC9597}} with its own `iss` and `sub` Claims.
 Algorithm, key, certificate, Issuer, and Subject metadata is specific to that signature.
 
 The `content_type` parameter describes the common payload.
-It MUST either be absent from every signature or have the same value in every signature.
+It MAY appear in the body protected header, in the signature protected headers, or in both.
+Where it appears in signature protected headers, it MUST either be absent from every signature or have the same value in every signature.
+Where it appears in both the body protected header and a signature protected header, the values MUST be equal.
+A `content_type` in the body protected header applies to the joint Statement as a whole and need not be repeated in the signatures.
 
 A joint Statement MUST contain signatures from at least two distinct Issuers.
 The Registration Policy MUST define how `iss` values identify Issuers and how aliases are handled.
@@ -227,7 +242,7 @@ Its existing Receipts are removed during Registration.
 
 The security considerations in {{Section 9 of RFC9943}}, {{Section 12 of RFC9052}}, and {{Section 7 of RFC9942}} apply.
 
-Each `COSE_Signature` covers the common payload, the empty body protected header, its own protected header, and any externally supplied authenticated data used with the signature.
+Each `COSE_Signature` covers the common payload, the body protected header, its own protected header, and any externally supplied authenticated data used with the signature.
 It does not cover the body or signature unprotected headers or other entries in the signatures array.
 A holder can therefore reorder or remove signatures, add independently valid signatures, or modify unprotected headers without invalidating the remaining signatures.
 In particular, this format does not prove that an Issuer knew of or endorsed another Issuer.
