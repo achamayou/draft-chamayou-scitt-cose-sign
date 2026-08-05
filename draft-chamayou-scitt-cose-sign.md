@@ -198,11 +198,7 @@ Body_Protected =
 ; As Protected_Header, but the CWT_Claims header parameter
 ; (label 15) MUST NOT be present.
 Body_Protected_Header = {
-  ? &(alg: 1) => int
   ? &(content_type: 3) => tstr / uint
-  ? &(kid: 4) => bstr
-  ? &(x5t: 34) => COSE_CertHash
-  ? &(x5chain: 33) => COSE_X509
   * ((int .ne 15) / tstr) => any
 }
 
