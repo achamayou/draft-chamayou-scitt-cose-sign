@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-04T01:20:08.183968+00:00",
+  "timestamp": "2026-08-06T01:22:05.668925+00:00",
   "repo": "achamayou/draft-chamayou-scitt-cose-sign",
   "labels": [
     {
@@ -112,9 +112,9 @@
       "id": "PR_kwDOThaufc74HNHG",
       "title": "Format draft with one sentence per line",
       "url": "https://github.com/achamayou/draft-chamayou-scitt-cose-sign/pull/3",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "copilot-swe-agent",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [
         "achamayou",
         "Copilot"
@@ -122,17 +122,79 @@
       "labels": [],
       "body": "Reflow the Internet-Draft source so each prose sentence occupies one line.\n\n- **Prose**\n  - Reformat paragraphs, lists, and blockquotes without changing wording.\n- **Structure**\n  - Preserve metadata, Markdown structure, references, and CDDL blocks.",
       "createdAt": "2026-07-29T17:09:34Z",
-      "updatedAt": "2026-07-29T17:09:58Z",
+      "updatedAt": "2026-08-05T15:04:15Z",
+      "baseRepository": "achamayou/draft-chamayou-scitt-cose-sign",
+      "baseRefName": "main",
+      "baseRefOid": "68f2dadb055d8f498e7b33a6747d0f2b64bfaec7",
+      "headRepository": "achamayou/draft-chamayou-scitt-cose-sign",
+      "headRefName": "copilot/make-document-one-sentence-per-line",
+      "headRefOid": "db098b415abc7815834814900c057dc4243afa68",
+      "closedAt": "2026-08-05T15:04:15Z",
+      "mergedAt": "2026-08-05T15:04:15Z",
+      "mergedBy": "achamayou",
+      "mergeCommit": {
+        "oid": "6d0be02a1f6452ffa245922f91d3fbf84043e375"
+      },
+      "comments": [
+        {
+          "author": "achamayou",
+          "authorAssociation": "OWNER",
+          "body": "@copilot update for the latest main",
+          "createdAt": "2026-08-05T14:09:05Z",
+          "updatedAt": "2026-08-05T14:09:05Z"
+        },
+        {
+          "author": "copilot-swe-agent",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "\n> @copilot update for the latest main\n\nUpdated with latest `main` in merge commit db098b4, preserving the new content with one-sentence-per-line formatting.",
+          "createdAt": "2026-08-05T14:12:20Z",
+          "updatedAt": "2026-08-05T14:12:20Z"
+        },
+        {
+          "author": "achamayou",
+          "authorAssociation": "OWNER",
+          "body": "@copilot double check",
+          "createdAt": "2026-08-05T14:14:56Z",
+          "updatedAt": "2026-08-05T14:14:56Z"
+        },
+        {
+          "author": "copilot-swe-agent",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "\n> @copilot double check\n\nDouble-checked: `main` is still at 68f2dad, the merge has both expected parents, and the PR draft exactly matches current `main` with only sentence-per-line reflow. `git diff --check` passes. The document build cannot run in this environment because `kramdown-rfc` and `xml2rfc` are unavailable.",
+          "createdAt": "2026-08-05T14:17:26Z",
+          "updatedAt": "2026-08-05T14:17:26Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOThaufc77G7ky",
+      "title": "Allow a global protected header, scope CWT_Claims to signatures",
+      "url": "https://github.com/achamayou/draft-chamayou-scitt-cose-sign/pull/4",
+      "state": "MERGED",
+      "author": "copilot-swe-agent",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "achamayou",
+        "Copilot"
+      ],
+      "labels": [],
+      "body": "The `COSE_Sign` body protected header was required to be a zero-length byte string, so no parameters could apply to a joint Statement as a whole. It should be allowed to carry global parameters, while CWT Claims remain mandatory in each signature-scoped protected header (per RFC 9943) and prohibited at the top level.\n\n### CDDL\n\n* `body_protected` in `Joint_Sign_Structure`, `Registered_Joint_Structure`, and `Joint_Transparent_Structure` now uses a new `Body_Protected` rule instead of `bstr .size 0`.\n* `Body_Protected_Header` permits `content_type` and any other label except CWT_Claims (15). Issuer-specific parameters (`alg`, `kid`, `x5t`, `x5chain`) are intentionally not listed; they belong in signature protected headers.\n\n```cddl\nBody_Protected =\n  bstr .size 0 / bstr .cbor Body_Protected_Header\n\n; As Protected_Header, but the CWT_Claims header parameter\n; (label 15) MUST NOT be present.\nBody_Protected_Header = {\n  ? &(content_type: 3) => tstr / uint\n  * ((int .ne 15) / tstr) => any\n}\n```\n\n### Normative text\n\n* Introduction and \"Protected Headers and Issuer Identity\" state the body protected header MAY carry common parameters, MUST NOT carry CWT Claims, and that verifiers reject Statements violating this.\n* Each `COSE_Signature` protected header MUST contain CWT Claims with its own `iss`/`sub`, restated as an RFC 9943 requirement.\n* `content_type` rules extended: may appear in body, signatures, or both; must agree where it appears in both; a body-level value need not be repeated per signature.\n* Security Considerations no longer describes the body protected header as empty.",
+      "createdAt": "2026-08-05T14:05:18Z",
+      "updatedAt": "2026-08-05T14:08:23Z",
       "baseRepository": "achamayou/draft-chamayou-scitt-cose-sign",
       "baseRefName": "main",
       "baseRefOid": "3d3ac6781c00cee6cdd8b0a2dd9266ea63a2d643",
       "headRepository": "achamayou/draft-chamayou-scitt-cose-sign",
-      "headRefName": "copilot/make-document-one-sentence-per-line",
-      "headRefOid": "bf5ab5f7a4043180fa29a3efaaa8597d03524fbb",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefName": "copilot/update-global-headers-requirements",
+      "headRefOid": "261a1dca949e1d248197d9526d09b6731eb32bec",
+      "closedAt": "2026-08-05T14:08:23Z",
+      "mergedAt": "2026-08-05T14:08:23Z",
+      "mergedBy": "achamayou",
+      "mergeCommit": {
+        "oid": "68f2dadb055d8f498e7b33a6747d0f2b64bfaec7"
+      },
       "comments": [],
       "reviews": []
     }
